@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:32:44 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 17:39:50 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/09/30 17:56:19 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct				s_info
 
 int							ft_tablen(char **tab);
 void						ft_freetab(char **tab);
+int							ft_digit(char *str);
+void						ft_exit(t_info *ret);
 
 t_info						*ft_parse(void);
 

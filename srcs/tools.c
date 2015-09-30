@@ -6,9 +6,12 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 17:38:06 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 17:39:03 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/09/30 17:58:42 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "lem_in.h"
+#include "libft.h"
 
 #include <stdlib.h>
 
@@ -25,4 +28,34 @@ void		ft_freetab(char **tab)
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
+}
+
+void		ft_exit(t_info *ret)
+{
+	t_lem	*list;
+	t_lem	*tmp;
+
+	if (ret != NULL)
+	{
+		list = ret->list;
+		free(ret);
+	}
+	if (list != NULL)
+	{
+		while (list)
+		{
+			tmp = list->next;
+			free(list->name);
+			free(list);
+			list = tmp;
+		}
+	}
+	exit(0);
+}
+
+int			ft_digit(char *str)
+{
+	while (ft_isdigit(*str))
+		str++;
+	return (*str ? 0 : 1);
 }
