@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 17:38:06 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 17:58:42 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/09/30 18:12:42 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void		ft_exit(t_info *ret)
 			list = tmp;
 		}
 	}
+	sleep(5);
 	exit(0);
 }
 

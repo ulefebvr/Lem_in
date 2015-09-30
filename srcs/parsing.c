@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 17:59:36 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/09/30 18:29:50 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,15 @@ t_lem		*get_room(int number, int ant_n, int start, int end)
 		if (!ft_strcmp(line, "##end"))
 			end = 1;
 		free(line);
-		get_room(number, 0, start, end);
+		return(get_room(number, 0, start, end));
 	}
 	if (!(begin = treat_room(line, number)))
 		return (NULL);
 	begin->ant = ant_n;
 	begin->start = start;
 	begin->end = end;
-	begin->next = get_room(++number, 0, 0, 0);
 	free(line);
+	begin->next = get_room(++number, 0, 0, 0);
 	return (begin);
 }
 
@@ -89,8 +89,10 @@ t_info		*ft_parse(void)
 {
 	t_info	*ret;
 
-	if (!(ret = (t_info*)malloc(sizeof(t_info))) ||
-		(ret->no_ant = ant_number()) == -1 ||
+	if (!(ret = (t_info*)malloc(sizeof(t_info))))
+		ft_exit(ret);
+	ret->list = NULL;
+	if ((ret->no_ant = ant_number()) == -1 ||
 		!(ret->list = get_room(0, ret->no_ant, 0, 0)))
 		ft_exit(ret);
 	return (ret);
@@ -99,9 +101,31 @@ t_info		*ft_parse(void)
 int			main(void)
 {
 	t_info	*info;
+	t_lem	*list;
 
 	info = ft_parse();
 	printf("%d\n", info->no_ant);
-	free(info);
+	list = info->list;
+	while (list)
+	{
+		printf("{no:%d, name:%s, ant:%d, start/end: %d/%d, coord: %d,%d\n", 
+			list->no, list->name, list->ant, list->start, list->end,
+			list->coord_x, list->coord_y);
+		list = list->next;
+	}
+	ft_exit(info);
+	sleep(5);
+
+
+	// int i = 0;
+	// char *line;
+	// line = NULL;
+	// while ((i = get_next_line(0, &line)))
+	// {
+	// 	printf("%d : %s\n", i, line);
+	// 	free(line);
+	// 	line = NULL;
+	// }
+	// sleep(5);
 	return(1);
 }
