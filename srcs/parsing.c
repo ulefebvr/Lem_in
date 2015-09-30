@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 18:29:50 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/09/30 18:33:30 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_lem		*get_room(int number, int ant_n, int start, int end)
 		return(get_room(number, 0, start, end));
 	}
 	if (!(begin = treat_room(line, number)))
-		return (NULL);
+		return (free(line), NULL);
 	begin->ant = ant_n;
 	begin->start = start;
 	begin->end = end;
