@@ -6,7 +6,7 @@ This is a 42 school project consisting in using or create a pathfinding algoryth
 
 ## How to use
 
-   ./lem_in < file
+	./lem_in < file
 
 ## Contributors
 
