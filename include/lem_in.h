@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:32:44 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 14:45:09 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/09/30 15:46:50 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ typedef struct				s_lem
 	char					*name;
 	int						ant;
 	int						link[128];
+	int						start;
+	int						end;
 	struct s_lem			*next;
 }							t_lem;
 
