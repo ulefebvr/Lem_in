@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 18:33:30 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/09/30 19:25:50 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_lem		*treat_room(char *line, int number)
 	return (room);
 }
 
-t_lem		*get_room(int number, int ant_n, int start, int end)
+t_lem		*get_room(t_info *info, int number, int start, int end)
 {
 	char	*line;
 	t_lem	*begin;
@@ -73,15 +73,15 @@ t_lem		*get_room(int number, int ant_n, int start, int end)
 		if (!ft_strcmp(line, "##end"))
 			end = 1;
 		free(line);
-		return(get_room(number, 0, start, end));
+		return(get_room(info, number, start, end));
 	}
 	if (!(begin = treat_room(line, number)))
-		return (free(line), NULL);
-	begin->ant = ant_n;
+		return (free(line), info->error = 1, NULL);
 	begin->start = start;
+	begin->ant = (start) ? info->no_ant : 0;
 	begin->end = end;
 	free(line);
-	begin->next = get_room(++number, 0, 0, 0);
+	begin->next = get_room(info, ++number, 0, 0);
 	return (begin);
 }
 
@@ -92,8 +92,10 @@ t_info		*ft_parse(void)
 	if (!(ret = (t_info*)malloc(sizeof(t_info))))
 		ft_exit(ret);
 	ret->list = NULL;
+	ret->error = 0;
 	if ((ret->no_ant = ant_number()) == -1 ||
-		!(ret->list = get_room(0, ret->no_ant, 0, 0)))
+		!(ret->list = get_room(ret, 0, 0, 0)) ||
+		ret->error == 1)
 		ft_exit(ret);
 	return (ret);
 }
@@ -113,6 +115,7 @@ int			main(void)
 			list->coord_x, list->coord_y);
 		list = list->next;
 	}
+	printf("main done\n");
 	ft_exit(info);
 	sleep(5);
 
