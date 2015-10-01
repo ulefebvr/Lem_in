@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 17:38:06 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 19:26:54 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/01 13:31:16 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int			ft_tablen(char **tab)
 {
-	return ((*tab) ? 1 + ft_tablen(++tab) : 0);
+	return ((tab && *tab) ? 1 + ft_tablen(++tab) : 0);
 }
 
 void		ft_freetab(char **tab)
@@ -25,6 +25,8 @@ void		ft_freetab(char **tab)
 	int		i;
 
 	i = 0;
+	if (!tab)
+		return ;
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
