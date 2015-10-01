@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 17:38:06 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/01 13:31:16 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/01 13:56:21 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void		ft_exit(t_info *ret)
 	t_lem	*list;
 	t_lem	*tmp;
 
+	list = NULL;
 	if (ret->error)
 		write(2, "ERROR\n", 6);
 	if (ret != NULL)

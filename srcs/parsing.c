@@ -6,15 +6,13 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/01 13:37:02 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/01 15:21:56 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "libft.h"
 #include "get_next_line.h"
-
-#include <stdio.h> //printf
 
 #define NO		0
 #define START	1
@@ -93,51 +91,6 @@ t_lem		*get_room(t_info *info, int inf[4])
 	return (free(line), begin);
 }
 
-t_lem		*get_roombyname(t_info *info, char *name)
-{
-	t_lem	*begin;
-
-	begin = info->list;
-	while (begin)
-	{
-		if (!ft_strcmp(name, begin->name))
-			break ;
-		begin = begin->next;
-	}
-	return (begin);
-}
-
-int			link_rooms(t_info *info, char *nroom1, char *nroom2)
-{
-	t_lem	*room1;
-	t_lem	*room2;
-
-	if (!(room1 = get_roombyname(info, nroom1))||
-		!(room2 = get_roombyname(info, nroom2)))
-		ft_exit(info);
-	room1->link[room2->no] = 1;
-	room2->link[room1->no] = 1;
-	return (1);
-}
-
-int			get_links(char *line, t_info *info)
-{
-	char	**tab;
-	int		i;
-
-	while (1)
-	{
-		if (!line && (i = get_next_line(0, &line)) <= 0)
-			break ;
-		if ((ft_tablen(tab = ft_strsplit(line, '-'))) == 2)
-			link_rooms(info, tab[0], tab[1]);
-		ft_freetab(tab);
-		free(line);
-		line = NULL;
-	}
-	return (i);
-}
-
 t_info		*ft_parse(void)
 {
 	t_info	*ret;
@@ -158,7 +111,9 @@ t_info		*ft_parse(void)
 	return (ret);
 }
 
-int			main(void)
+// #include <stdio.h>
+
+/*int			main(void)
 {
 	t_info	*info;
 	t_lem	*list;
@@ -194,4 +149,4 @@ int			main(void)
 	// }
 	// sleep(5);
 	return(1);
-}
+}*/
