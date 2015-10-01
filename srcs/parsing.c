@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/09/30 19:25:50 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/01 13:37:02 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include "get_next_line.h"
 
 #include <stdio.h> //printf
+
+#define NO		0
+#define START	1
+#define END		2
+#define ANT		3
 
 int			ant_number(void)
 {
@@ -33,7 +38,7 @@ int			ant_number(void)
 	return (ret);
 }
 
-t_lem		*treat_room(char *line, int number)
+t_lem		*treat_room(char *line, int number, int start, int end)
 {
 	t_lem	*room;
 	char	**tab;
@@ -46,7 +51,10 @@ t_lem		*treat_room(char *line, int number)
 	{
 		if ((room = (t_lem *)malloc(sizeof(t_lem))))
 		{
+			ft_bzero(room, sizeof(t_lem));
 			room->no = number;
+			room->start = start;
+			room->end = end;
 			room->name = ft_strdup(tab[0]);
 			room->coord_x = ft_atoi(tab[1]);
 			room->coord_y = ft_atoi(tab[2]);
@@ -58,45 +66,95 @@ t_lem		*treat_room(char *line, int number)
 	return (room);
 }
 
-t_lem		*get_room(t_info *info, int number, int start, int end)
+t_lem		*get_room(t_info *info, int inf[4])
 {
-	char	*line;
 	t_lem	*begin;
+	char	*line;
 
 	line = NULL;
 	if (get_next_line(0, &line) <= 0)
 		return (NULL);
 	if (*line == '#')
 	{
-		if (!ft_strcmp(line, "##start"))
-			start = 1;
-		if (!ft_strcmp(line, "##end"))
-			end = 1;
+		inf[START] = (!ft_strcmp(line, "##start")) ? 1 : 0;
+		inf[END] = (!ft_strcmp(line, "##end")) ? 1 : 0;
 		free(line);
-		return(get_room(info, number, start, end));
+		return(get_room(info, inf));
 	}
-	if (!(begin = treat_room(line, number)))
-		return (free(line), info->error = 1, NULL);
-	begin->start = start;
-	begin->ant = (start) ? info->no_ant : 0;
-	begin->end = end;
-	free(line);
-	begin->next = get_room(info, ++number, 0, 0);
+	if (!(begin = treat_room(line, inf[NO], inf[START], inf[END])))
+	{
+		info->buffer = line;
+		return (NULL);
+	}
+	begin->ant = (inf[START]) ? inf[ANT] : 0;
+	inf[NO]++;
+	ft_bzero(&inf[1], sizeof(int) * 2);
+	begin->next = get_room(info, inf);
+	return (free(line), begin);
+}
+
+t_lem		*get_roombyname(t_info *info, char *name)
+{
+	t_lem	*begin;
+
+	begin = info->list;
+	while (begin)
+	{
+		if (!ft_strcmp(name, begin->name))
+			break ;
+		begin = begin->next;
+	}
 	return (begin);
+}
+
+int			link_rooms(t_info *info, char *nroom1, char *nroom2)
+{
+	t_lem	*room1;
+	t_lem	*room2;
+
+	if (!(room1 = get_roombyname(info, nroom1))||
+		!(room2 = get_roombyname(info, nroom2)))
+		ft_exit(info);
+	room1->link[room2->no] = 1;
+	room2->link[room1->no] = 1;
+	return (1);
+}
+
+int			get_links(char *line, t_info *info)
+{
+	char	**tab;
+	int		i;
+
+	while (1)
+	{
+		if (!line && (i = get_next_line(0, &line)) <= 0)
+			break ;
+		if ((ft_tablen(tab = ft_strsplit(line, '-'))) == 2)
+			link_rooms(info, tab[0], tab[1]);
+		ft_freetab(tab);
+		free(line);
+		line = NULL;
+	}
+	return (i);
 }
 
 t_info		*ft_parse(void)
 {
 	t_info	*ret;
+	int		info[4];
 
 	if (!(ret = (t_info*)malloc(sizeof(t_info))))
 		ft_exit(ret);
-	ret->list = NULL;
-	ret->error = 0;
-	if ((ret->no_ant = ant_number()) == -1 ||
-		!(ret->list = get_room(ret, 0, 0, 0)) ||
-		ret->error == 1)
+	ft_bzero(ret, sizeof(t_info));
+	ft_bzero(info, sizeof(int) * 4);
+	if ((info[ANT] = ant_number()) == -1 ||
+		!(ret->list = get_room(ret, info)) ||
+		get_links(ret->buffer, ret) == -1)
+	{
+		ret->error = 1;
 		ft_exit(ret);
+	}
+	ret->no_ant = info[ANT];
 	return (ret);
 }
 
@@ -104,15 +162,20 @@ int			main(void)
 {
 	t_info	*info;
 	t_lem	*list;
+	int		i;
 
 	info = ft_parse();
 	printf("%d\n", info->no_ant);
 	list = info->list;
 	while (list)
 	{
+		i = 0;
 		printf("{no:%d, name:%s, ant:%d, start/end: %d/%d, coord: %d,%d\n", 
 			list->no, list->name, list->ant, list->start, list->end,
 			list->coord_x, list->coord_y);
+		while (i < 10)
+			printf("%d ", list->link[i++]);
+		printf("\n");
 		list = list->next;
 	}
 	printf("main done\n");
