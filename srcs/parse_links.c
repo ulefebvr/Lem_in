@@ -6,12 +6,13 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/01 15:21:16 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/01 15:22:30 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/02 13:32:12 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "libft.h"
+#include "get_next_line.h"
 
 t_lem		*get_roombyname(t_info *info, char *name)
 {
@@ -24,6 +25,7 @@ t_lem		*get_roombyname(t_info *info, char *name)
 			break ;
 		begin = begin->next;
 	}
+	info->error = (begin) ? 0 : 1;
 	return (begin);
 }
 
@@ -51,6 +53,12 @@ int			get_links(char *line, t_info *info)
 			break ;
 		if ((ft_tablen(tab = ft_strsplit(line, '-'))) == 2)
 			link_rooms(info, tab[0], tab[1]);
+		else if (!ft_strlen(line) || *line != '#')
+		{
+			info->error = 1;
+			free(line);
+			ft_exit(info);
+		}
 		ft_freetab(tab);
 		free(line);
 		line = NULL;
