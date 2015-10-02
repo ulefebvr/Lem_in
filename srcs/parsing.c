@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/01 15:21:56 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/01 15:33:56 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,43 +110,3 @@ t_info		*ft_parse(void)
 	ret->no_ant = info[ANT];
 	return (ret);
 }
-
-// #include <stdio.h>
-
-/*int			main(void)
-{
-	t_info	*info;
-	t_lem	*list;
-	int		i;
-
-	info = ft_parse();
-	printf("%d\n", info->no_ant);
-	list = info->list;
-	while (list)
-	{
-		i = 0;
-		printf("{no:%d, name:%s, ant:%d, start/end: %d/%d, coord: %d,%d\n", 
-			list->no, list->name, list->ant, list->start, list->end,
-			list->coord_x, list->coord_y);
-		while (i < 10)
-			printf("%d ", list->link[i++]);
-		printf("\n");
-		list = list->next;
-	}
-	printf("main done\n");
-	ft_exit(info);
-	sleep(5);
-
-
-	// int i = 0;
-	// char *line;
-	// line = NULL;
-	// while ((i = get_next_line(0, &line)))
-	// {
-	// 	printf("%d : %s\n", i, line);
-	// 	free(line);
-	// 	line = NULL;
-	// }
-	// sleep(5);
-	return(1);
-}*/
