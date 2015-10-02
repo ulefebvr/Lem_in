@@ -3,19 +3,8 @@
 
 #include <stdio.h>
 
-int check_line(char *line)
+int			parse(void)
 {
-	printf("%s [V]\n", line);
-	return (1);
-}
-
-int read_file(void)
-{
-	char *buffer;
-
-	while (get_next_line(0, &buffer) && buffer)
-	{
-		check_line(buffer);
-	}
+	if (!get_node() || !get_link())
 	return (1);
 }

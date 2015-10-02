@@ -6,6 +6,8 @@ typedef struct		s_info
 	int				link[128];
 	int				node;
 	int				ant;
+	int				start;
+	int				end;
 	int				x;
 	int				y;
 }					t_info;
