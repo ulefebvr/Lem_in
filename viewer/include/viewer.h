@@ -16,4 +16,5 @@ typedef struct		s_map
 	struct s_map	*next;
 }					t_map;
 
+int					read_file(void);
 #endif

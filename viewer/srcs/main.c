@@ -7,5 +7,6 @@
 
 int main(void)
 {
+	read_file();
 	return (0);
 }
