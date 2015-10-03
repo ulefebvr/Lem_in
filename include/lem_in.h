@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:32:44 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/02 13:30:48 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/03 14:07:22 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct				s_lem
 	int						coord_x;
 	int						coord_y;
 	struct s_lem			*next;
+	struct s_lem			*path;
+	int						dist;
 }							t_lem;
 
 typedef struct				s_info
@@ -44,5 +46,7 @@ void						ft_exit(t_info *ret);
 int							get_links(char *line, t_info *info);
 t_lem						*get_room(t_info *info, int inf[4]);
 t_info						*ft_parse(void);
+
+int							pathfinder(t_info *info);
 
 #endif

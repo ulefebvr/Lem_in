@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/02 13:15:52 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/03 14:17:18 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ t_lem		*treat_room(char *line, int number, int start, int end)
 			room->name = ft_strdup(tab[0]);
 			room->coord_x = ft_atoi(tab[1]);
 			room->coord_y = ft_atoi(tab[2]);
+			room->path = NULL;
+			room->dist = 0;
+			ft_bzero(room->link, 128);
 		}
 		else
 			room = NULL;
