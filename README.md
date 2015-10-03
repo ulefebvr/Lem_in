@@ -12,3 +12,4 @@ This is a 42 school project consisting in using or create a pathfinding algoryth
 
 * Umi Lefebvre
 * Gaëtan Deguigné
+* Roger Clanget
