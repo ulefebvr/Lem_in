@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 10:17:05 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/02 18:07:25 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/03 17:52:00 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,44 @@ t_lem	*get_endroom(t_lem *list)
  int			main(void)
  {
  	t_info	*info;
- 	t_lem	*list;
+ 	t_path	*path;
 	int		i;
  
  	info = ft_parse();
- 	printf("%d\n", info->no_ant);
- 	list = info->list;
- 	while (list)
- 	{
-		i = 0;
- 		printf("{no:%d, name:%s, ant:%d, start/end: %d/%d, coord: %d,%d\n", 
- 			list->no, list->name, list->ant, list->start, list->end,
- 			list->coord_x, list->coord_y);
-		while (i < 10)
-			printf("%d ", list->link[i++]);
-		printf("\n");
- 		list = list->next;
- 	}
- 	printf("main done\n");
+ 	// printf("%d\n", info->no_ant);
+
+ 	// list = info->list;
+ 	// while (list)
+ 	// {
+		// i = 0;
+ 	// 	printf("{no:%d, name:%s, ant:%d, start/end: %d/%d, coord: %d,%d\n", 
+ 	// 		list->no, list->name, list->ant, list->start, list->end,
+ 	// 		list->coord_x, list->coord_y);
+		// while (i < 10)
+		// 	printf("%d ", list->link[i++]);
+		// printf("\n");
+ 	// 	list = list->next;
+ 	// }
+ 	// printf("main done\n");
+ 	// pathfinder(info);
+ 	// list = get_endroom(info->list);
+ 	// while (list)
+ 	// {
+ 	// 	sleep(5);
+ 	// 	printf("%s\n", list->name);
+ 	// 	list = list->path;
+ 	// }
+
  	pathfinder(info);
- 	list = get_endroom(info->list);
- 	while (list)
+ 	info->path = get_path(info);
+ 	path = info->path;
+ 	while (path)
  	{
- 		sleep(5);
- 		printf("%s\n", list->name);
- 		list = list->path;
+ 		printf("%s\n", path->room->name);
+ 		path = path->next;
  	}
+
  	ft_exit(info);
- 	sleep(5);
  
  
  	// int i = 0;
