@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 14:18:28 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/03 15:18:55 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/03 17:50:26 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 #include <stdlib.h>
 
-t_lem	*get_roomstart(t_lem *list)
+t_lem	*get_roomstartend(t_lem *list, int end)
 {
 	t_lem	*begin;
 
 	begin = list;
 	while (begin)
 	{
-		if (begin->start)
+		if (end ? begin->end : begin->start)
 			break ;
 		begin = begin->next;
 	}
@@ -80,7 +80,7 @@ int		pathfinder(t_info *info)
 {
 	t_lem	*start;
 
-	(start = get_roomstart(info->list))->stat = 1;
+	start = get_roomstartend(info->list, 0);
 	find_path(info, start, start->no);
 	return (1);
 }

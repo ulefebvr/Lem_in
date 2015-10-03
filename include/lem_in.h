@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:32:44 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/03 14:07:22 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/03 17:49:43 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,16 @@ typedef struct				s_lem
 	int						dist;
 }							t_lem;
 
+typedef struct				s_path
+{
+	struct s_lem			*room;
+	struct s_path			*next;
+}							t_path;
+
 typedef struct				s_info
 {
 	t_lem					*list;
+	t_path					*path;
 	int						no_ant;
 	int						error;
 	char					*buffer;
@@ -47,6 +54,9 @@ int							get_links(char *line, t_info *info);
 t_lem						*get_room(t_info *info, int inf[4]);
 t_info						*ft_parse(void);
 
+t_lem						*get_roomstartend(t_lem *list, int end);
+
 int							pathfinder(t_info *info);
+t_path						*get_path(t_info *info);
 
 #endif
