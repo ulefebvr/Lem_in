@@ -24,14 +24,14 @@ int test_csfml(void)
           return (0);
  
       /* Load a sprite to display */
-      texture = sfTexture_createFromFile("cute_image.jpg", NULL);
+      texture = sfTexture_createFromFile("ressources/img/cute_image.jpg", NULL);
       if (!texture)
           return (0);
       sprite = sfSprite_create();
       sfSprite_setTexture(sprite, texture, sfTrue);
   
       /* Create a graphical text to display */
-      font = sfFont_createFromFile("arial.ttf");
+      font = sfFont_createFromFile("ressources/fonts/arial.ttf");
       if (!font)
           return (0);
       text = sfText_create();
@@ -40,7 +40,7 @@ int test_csfml(void)
       sfText_setCharacterSize(text, 50);
   
       /* Load a music to play */
-      music = sfMusic_createFromFile("nice_music.ogg");
+      music = sfMusic_createFromFile("ressources/sounds/nice_music.ogg");
       if (!music)
           return (0);
  

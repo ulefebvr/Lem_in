@@ -1,7 +1,10 @@
 #include "viewer.h"
 
+#include <stdlib.h>
+
 int main(void)
 {
-	test_csfml();
+	parse();
+	// test_csfml();
 	return (0);
 }

@@ -13,6 +13,8 @@
 #include "lem_in.h"
 #include "get_next_line.h"
 
+#include <stdio.h>
+
 int		move_path(t_path *path)
 {
 	// t_path	*path;
@@ -24,7 +26,7 @@ int		move_path(t_path *path)
 		move += move_path(path->next);
 		if (path->next && !path->room->start && path->room->ant)
 		{
-			ft_print("L%d-%s ", path->room->ant, path->next->room->name);
+			printf("L%d-%s ", path->room->ant, path->next->room->name);
 			path->next->room->ant = path->room->ant;
 			path->room->ant = 0;
 			move++;
@@ -35,8 +37,8 @@ int		move_path(t_path *path)
 
 int		first_move(t_info *info, t_paths *paths, int ant)
 {
-	ft_print("L%d-%s ", ant - info->no_ant + 1, paths->path->next->room->name);
-	paths->path->next->room->ant = info->no_ant - ant + 1;
+	printf("L%d-%s ", ant - info->no_ant + 1, paths->path->next->room->name);
+	paths->path->next->room->ant = ant - info->no_ant + 1;
 	info->no_ant--;
 	paths->max--;
 	return (1);
@@ -65,5 +67,5 @@ void	sendtopath(t_info *info)
 
 	total_ant = info->no_ant;
 	while (move_ant(info, total_ant))
-		ft_print("\n");
+		printf("\n");
 }
