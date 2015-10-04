@@ -1,12 +1,7 @@
 #include "viewer.h"
 
-// Read
-// Parse
-// Map create
-// Print map
-
 int main(void)
 {
-	read_file();
+	test_csfml();
 	return (0);
 }

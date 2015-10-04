@@ -18,5 +18,7 @@ typedef struct		s_map
 	struct s_map	*next;
 }					t_map;
 
-int					read_file(void);
+t_map				*ft_global(t_map *map);
+int					test_csfml(void);
+
 #endif
