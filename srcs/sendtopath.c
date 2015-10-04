@@ -5,35 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/10/03 17:31:34 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/03 17:50:02 by ulefebvr         ###   ########.fr       */
+/*   Created: 2015/10/04 19:55:35 by ulefebvr          #+#    #+#             */
+/*   Updated: 2015/10/04 21:23:30 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "get_next_line.h"
 
-#include <stdlib.h>
-
-t_path	*translate_path(t_lem *list)
+int		move_path(t_path *path)
 {
-	t_path	*path;
+	// t_path	*path;
+	int		move;
 
-	path = NULL;
-	if (list)
+	move = 0;
+	if (path)
 	{
-		path = (t_path *)malloc(sizeof(t_path));
-		path->room = list;
-		path->next = translate_path(list->path);
+		move += move_path(path->next);
+		if (path->next && !path->room->start && path->room->ant)
+		{
+			ft_print("L%d-%s ", path->room->ant, path->next->room->name);
+			path->next->room->ant = path->room->ant;
+			path->room->ant = 0;
+			move++;
+		}
 	}
-	return (path);
+	return (move);
 }
 
-t_path	*get_path(t_info *info)
+int		first_move(t_info *info, t_paths *paths, int ant)
 {
-	t_path	*path;
-	t_lem	*end;
+	ft_print("L%d-%s ", ant - info->no_ant + 1, paths->path->next->room->name);
+	paths->path->next->room->ant = info->no_ant - ant + 1;
+	info->no_ant--;
+	paths->max--;
+	return (1);
+}
 
-	end = get_roomstartend(info->list, 1);
-	path = translate_path(end);
-	return (path);
+int		move_ant(t_info *info, int total_ant)
+{
+	t_paths		*paths;
+	int			move;
+
+	move = 0;
+	paths = info->paths;
+	while (paths)
+	{
+		move += move_path(paths->path);
+		if (paths->max)
+			move += first_move(info, paths, total_ant);
+		paths = paths->next;
+	}
+	return (move);
+}
+
+void	sendtopath(t_info *info)
+{
+	int		total_ant;
+
+	total_ant = info->no_ant;
+	while (move_ant(info, total_ant))
+		ft_print("\n");
 }
