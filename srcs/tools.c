@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 17:38:06 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/03 17:53:24 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/04 19:37:42 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,26 @@
 int			ft_tablen(char **tab)
 {
 	return ((tab && *tab) ? 1 + ft_tablen(++tab) : 0);
+}
+
+int			ft_pathlen(t_path *path)
+{
+	int		i;
+	t_path	*begin;
+
+	i = 0;
+	begin = path;
+	while (++i && (begin = begin->next))
+		;
+	return (i);
+}
+
+int			ft_round(float number)
+{
+	int		rounder;
+
+	rounder = (int)((number - (int)number) * 10);
+	return (rounder >= 5 ? (int)number + 1 : (int)number);
 }
 
 void		ft_freetab(char **tab)
@@ -42,6 +62,17 @@ void		free_path(t_path *path)
 	}
 }
 
+void		free_paths(t_paths *paths)
+{
+	if (paths)
+	{
+		free_path(paths->path);
+		if (paths->next)
+			free_paths(paths->next);
+		free(paths);
+	}
+}
+
 void		free_list(t_lem *list)
 {
 	if (list)
@@ -56,16 +87,16 @@ void		free_list(t_lem *list)
 void		ft_exit(t_info *ret)
 {
 	t_lem	*list;
-	t_path	*path;
+	t_paths	*paths;
 
 	list = (!ret) ? NULL : ret->list;
-	path = (!ret) ? NULL : ret->path;
+	paths = (!ret) ? NULL : ret->paths;
 	if (ret->error)
 		write(2, "ERROR\n", 6);
 	if (ret != NULL)
 		free(ret);
 	free_list(list);
-	free_path(path);
+	free_paths(paths);
 	sleep(5);
 	exit(0);
 }
