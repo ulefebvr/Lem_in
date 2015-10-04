@@ -1,9 +1,9 @@
 
 
 SRC_PATH	=	./srcs/
-SRC_NAME	=	main.c read.c
+SRC_NAME	=	main.c read.c print.c ft_global.c
 OBJ_PATH	=	./obj/
-INC_PATH	=	./include/ ./libft/includes/
+INC_PATH	=	./include/ ./libft/includes/ ~/.brew/include
 NAME		=	./viewer
 CC			=	gcc
 CFLAGS		=	-Werror -Wall -Wextra
@@ -12,7 +12,7 @@ OBJ_NAME	=	$(SRC_NAME:.c=.o)
 SRC			=	$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ			=	$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC			=	$(addprefix -I,$(INC_PATH))
-LIB_NAMES	=	./libft/libft.a
+LIB_NAMES	=	./libft/libft.a -L ~/.brew/lib
 LDFLAGS		=	$(LIB_NAMES)
 
 all: $(NAME)
