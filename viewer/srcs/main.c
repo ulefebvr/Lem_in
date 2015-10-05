@@ -5,6 +5,6 @@
 int main(void)
 {
 	parse();
-	// test_csfml();
+	test_csfml();
 	return (0);
 }
