@@ -11,7 +11,7 @@
 #******************************************************************************#
 
 SRC_PATH	=	./srcs/
-SRC_NAME	=	
+SRC_NAME	=	*
 OBJ_PATH	=	./obj/
 INC_PATH	=	./includes/ ./libft/includes/
 NAME		=	./lem-in
