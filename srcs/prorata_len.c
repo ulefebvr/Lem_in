@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/04 18:45:34 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/04 19:56:30 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 13:24:01 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	set_maxbypath(t_paths *list, int total, int ant)
 	}
 	if (!paths->max)
 		paths = paths->prev;
-	while (ant < 0)
+	while (ant < 0 && ant++)
 		paths->max--;
-	while (ant > 0)
+	while (ant > 0 && ant--)
 		list->max++;
 }
 
