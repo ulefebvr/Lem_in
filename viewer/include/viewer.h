@@ -18,8 +18,11 @@ typedef struct		s_map
 	int				y;
 	char			*name;
 	t_links			*links;
+	void 			*window;
 	struct s_map	*next;
 }					t_map;
+
+#define ZOOM 30
 
 // ft_global.c
 t_map				*ft_global(t_map *map);
