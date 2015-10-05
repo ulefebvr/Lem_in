@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:32:44 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 13:43:14 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 13:47:12 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ typedef struct				s_lem
 	int						start;
 	int						end;
 	int						stat;
-	int						coord_x;
-	int						coord_y;
+	double					coord_x;
+	double					coord_y;
 	struct s_lem			*next;
 	struct s_lem			*path;
 	int						dist;
