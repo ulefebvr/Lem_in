@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:32:44 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 13:40:23 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 13:43:14 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int							ft_pathlen(t_path *path);
 int							ft_round(float number);
 
 t_path						*reverse_path(t_path *path, int len);
+t_paths						*reverse_all(t_paths *paths);
 
 void						ft_freetab(char **tab);
 void						free_path(t_path *path);
