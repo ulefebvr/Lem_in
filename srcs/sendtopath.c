@@ -6,12 +6,11 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/04 19:55:35 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 14:21:20 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 14:49:26 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "get_next_line.h"
 
 int		move_path(t_path *path)
 {
@@ -64,5 +63,5 @@ void	sendtopath(t_info *info)
 
 	total_ant = info->no_ant;
 	while (move_ant(info, total_ant))
-		printf("\n");
+		ft_print("\n");
 }
