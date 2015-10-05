@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/05 13:31:38 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 13:42:59 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 13:46:33 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_path	*reverse_path(t_path *path, int len)
 {
 	t_path	*ret;
 	t_path	*last;
-	t_room	*tmp;
+	t_lem	*tmp;
 
 	last = path;
 	ret = path;
@@ -28,7 +28,10 @@ t_path	*reverse_path(t_path *path, int len)
 		tmp = path->room;
 		path->room = last->room;
 		last->room = tmp;
+		last = last->prev;
+		path = path->next;
 	}
+	return (ret);
 }
 
 t_paths	*reverse_all(t_paths *paths)

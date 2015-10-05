@@ -6,14 +6,12 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/04 19:55:35 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 11:27:23 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 14:21:20 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "get_next_line.h"
-
-#include <stdio.h>
 
 int		move_path(t_path *path)
 {
@@ -25,7 +23,7 @@ int		move_path(t_path *path)
 		move += move_path(path->next);
 		if (path->next && !path->room->start && path->room->ant)
 		{
-			printf("L%d-%s ", path->room->ant, path->next->room->name);
+			ft_print("L%d-%s ", path->room->ant, path->next->room->name);
 			path->next->room->ant = path->room->ant;
 			path->room->ant = 0;
 			move++;
