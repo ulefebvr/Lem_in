@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 14:33:56 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 18:05:53 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #define NO		0
 #define START	1
 #define END		2
-#define ANT		3
 
 int			ant_number(void)
 {
@@ -53,61 +52,57 @@ t_lem		*treat_room(char *line, int number, int start, int end)
 			room->no = number;
 			room->start = start;
 			room->end = end;
+			room->ant = 0;
 			room->name = ft_strdup(tab[0]);
 			room->coord_x = ft_atoi(tab[1]);
 			room->coord_y = ft_atoi(tab[2]);
-			ft_bzero(room->link, 128);
+			room->link = NULL;
 		}
-		else
-			room = NULL;
 	}
 	ft_freetab(tab);
 	return (room);
 }
 
-t_lem		*get_room(t_info *info, int inf[4])
+t_lem		*get_room(t_info *info, int i[3])
 {
-	t_lem	*begin;
-	char	*line;
+	t_lem	*room;
+	t_lem	*tmp;
+	t_lem	*tmp2;
 
-	line = NULL;
-	if (get_next_line(0, &line) <= 0)
-		return (NULL);
-	if (*line == '#')
+	tmp = NULL;
+	info->buffer = NULL;
+	while (get_next_line(0, &info->buffer) > 0)
 	{
-		inf[START] = (!ft_strcmp(line, "##start")) ? 1 : 0;
-		inf[END] = (!ft_strcmp(line, "##end")) ? 1 : 0;
-		free(line);
-		return (get_room(info, inf));
+		if (*info->buffer == '#')
+		{
+			i[START] = (!ft_strcmp(info->buffer, "##start")) ? 1 : 0;
+			i[END] = (!ft_strcmp(info->buffer, "##end")) ? 1 : 0;
+			free(info->buffer);
+			continue ;
+		}
+		if (!(tmp2 = treat_room(info->buffer, i[NO]++, i[START], i[END])))
+			break ;
+		room = tmp2;
+		room->next = tmp;
+		tmp = room;
+		ft_bzero(&i[1], sizeof(int) * 2);
+		free(info->buffer);
 	}
-	if (!(begin = treat_room(line, inf[NO], inf[START], inf[END])))
-	{
-		info->buffer = line;
-		return (NULL);
-	}
-	begin->ant = (inf[START]) ? inf[ANT] : 0;
-	inf[NO]++;
-	ft_bzero(&inf[1], sizeof(int) * 2);
-	begin->next = get_room(info, inf);
-	return (free(line), begin);
+	return (room);
 }
 
 t_info		*ft_parse(void)
 {
 	t_info	*ret;
-	int		info[4];
+	int		info[3];
 
 	if (!(ret = (t_info*)malloc(sizeof(t_info))))
 		ft_exit(ret);
 	ft_bzero(ret, sizeof(t_info));
-	ft_bzero(info, sizeof(int) * 4);
-	if ((info[ANT] = ant_number()) == -1 ||
-		!(ret->list = get_room(ret, info)) ||
-		get_links(ret->buffer, ret) == -1)
-	{
-		ret->error = 1;
-		ft_exit(ret);
-	}
-	ret->no_ant = info[ANT];
+	ft_bzero(info, sizeof(int) * 3);
+	ret->no_ant = ant_number();
+	ret->list = get_room(ret, info);
+	get_links(ret->buffer, ret);
+	ret->error = 0;
 	return (ret);
 }

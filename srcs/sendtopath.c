@@ -6,11 +6,12 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/04 19:55:35 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 14:49:26 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 16:07:57 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "libft.h"
 
 int		move_path(t_path *path)
 {

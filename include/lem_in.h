@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:32:44 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 13:47:12 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 20:08:21 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 # define LEM_IN_H
 
+typedef struct				s_link
+{
+	struct s_lem			*room;
+	int						dist;
+	struct s_link			*next;
+}							t_link;
+
 typedef struct				s_lem
 {
 	int						no;
 	char					*name;
 	int						ant;
-	int						link[128];
+	struct s_link			*link;
 	int						start;
 	int						end;
 	int						stat;
@@ -62,19 +69,22 @@ void						ft_exit(t_info *ret);
 int							ft_pathlen(t_path *path);
 int							ft_round(float number);
 
-t_path						*reverse_path(t_path *path, int len);
-t_paths						*reverse_all(t_paths *paths);
+t_lem						*get_roomstartend(t_lem *list, int end);
+t_link						*get_linkbyno(t_link *link, int no);
+t_link						*remove_link(t_link *link, int no);
 
 void						ft_freetab(char **tab);
 void						free_path(t_path *path);
 void						free_paths(t_paths *paths);
 void						free_list(t_lem *list);
+void						free_link(t_link *link);
 
 int							get_links(char *line, t_info *info);
 t_lem						*get_room(t_info *info, int inf[4]);
 t_info						*ft_parse(void);
 
-t_lem						*get_roomstartend(t_lem *list, int end);
+t_path						*reverse_path(t_path *path, int len);
+t_paths						*reverse_all(t_paths *paths);
 
 int							pathfinder(t_info *info);
 t_path						*get_path(t_info *info);

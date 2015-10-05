@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 14:18:28 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 14:36:55 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 20:12:49 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,20 @@ t_lem	*get_roombyno(t_lem *list, int no)
 t_lem	*get_nextroom(t_info *info, t_lem *room, int start_no)
 {
 	t_lem	*ret;
+	t_link	*link;
 	int		i;
 
 	i = 0;
-	while (i < 128)
+	link = room->link;
+	while (link)
 	{
-		if (room->link[i] && i != start_no &&
-			(!((ret = get_roombyno(info->list, i))->dist) ||
-			(ret->dist > room->link[i] + room->dist)))
+		if (!link->room->start && (!((ret = link->room)->dist) ||
+			(link->room->dist > link->dist + room->dist)))
 			break ;
-		else
-			ret = NULL;
-		i++;
+		link = link->next;
 	}
+	if (!link)
+		ret = NULL;
 	return (ret);
 }
 
@@ -67,7 +68,7 @@ int		find_path(t_info *info, t_lem *room, int start_no)
 
 	while ((next = get_nextroom(info, room, start_no)))
 	{
-		next->dist = room->dist + room->link[next->no];
+		next->dist = room->dist + get_linkbyno(room->link, next->no)->dist;
 		next->path = room;
 		if (!next->end)
 			find_path(info, next, start_no);
