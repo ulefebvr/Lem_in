@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/04 19:55:35 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/04 21:23:30 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 09:18:48 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		move_path(t_path *path)
 int		first_move(t_info *info, t_paths *paths, int ant)
 {
 	ft_print("L%d-%s ", ant - info->no_ant + 1, paths->path->next->room->name);
-	paths->path->next->room->ant = info->no_ant - ant + 1;
+	paths->path->next->room->ant = ant - info->no_ant + 1;
 	info->no_ant--;
 	paths->max--;
 	return (1);
