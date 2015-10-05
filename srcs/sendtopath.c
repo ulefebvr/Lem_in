@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/04 19:55:35 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 09:28:04 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 11:27:23 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 int		move_path(t_path *path)
 {
-	// t_path	*path;
 	int		move;
 
 	move = 0;
