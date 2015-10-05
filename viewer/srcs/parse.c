@@ -33,7 +33,7 @@ static int 	get_node(int *comment, char *line)
 	char **result;
 
 	if (!(result = ft_strsplit(line, ' ')) || !(ft_tablen(result) == 3))
-		return (is_link(line) ? -1 : 0);
+		return (is_link(line) ? check_link() : 0);
 	return (lst_add(result, comment));
 }
 
