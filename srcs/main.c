@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 10:17:05 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/08 14:31:00 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 15:15:54 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void		ft_exit(t_info *ret)
 	list = (!ret) ? NULL : ret->list;
 	paths = (!ret) ? NULL : ret->paths;
 	if (ret->error)
-		write(2, "ERROR\n", 6);
+		write(2, "\nERROR\n", 7);
 	if (ret != NULL)
 		free(ret);
 	free_list(list);
 	free_paths(paths);
-	exit(0);
+	sleep(10);
 }
 
 void		ft_usage(int help)
@@ -36,7 +36,7 @@ void		ft_usage(int help)
 	ft_fdprint(2, "usage : ./Lem-in [-dhq] < map_file\n");
 	if (help)
 	{
-		ft_fdprint(2, "-d   found path with real distance calculated by"
+		ft_fdprint(2, "-d   found path with real distance calculated from "
 			"coordinates\n");
 		ft_fdprint(2, "-q   quiet mode activated\n");
 		ft_fdprint(2, "-h   help\n");
@@ -53,11 +53,15 @@ int			main(int ac, char **av)
 		return (ft_usage(opt & OPT_H ? 1 : 0), 0);
 	info = ft_parse(opt);
 	info->no_path = 0;
-	info->paths = get_allpaths(info, NULL);
-	set_prorata_len(info);
-	if (!(info->option & OPT_Q))
-		ft_print("\n");
-	sendtopath(info);
+	if (info->list && (info->paths = get_allpaths(info, NULL)))
+	{
+		set_prorata_len(info);
+		if (!(info->option & OPT_Q))
+			ft_print("\n");
+		sendtopath(info);
+	}
+	else
+		info->error = 1;
 	ft_exit(info);
 	return (1);
 }

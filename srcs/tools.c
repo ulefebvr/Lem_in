@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 17:38:06 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/08 14:32:59 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 14:57:20 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ t_link		*remove_link(t_link *link, int no)
 
 int			ft_digit(char *str)
 {
+	char *s;
+
+	s = str;
 	while (ft_isdigit(*str))
 		str++;
-	return (*str ? 0 : 1);
+	return (s && *s && !*str ? 1 : 0);
 }

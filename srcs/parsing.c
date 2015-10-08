@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/08 14:30:24 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 15:10:09 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,13 @@ t_lem		*treat_room(char *line, int number, int start, int end)
 	return (room);
 }
 
-void		verify_comment(t_info *info, int i[3])
+int			verify_comment(t_info *info, int i[3])
 {
 	i[START] = (!ft_strcmp(info->buffer, "##start")) ? 1 : 0;
 	i[END] = (!ft_strcmp(info->buffer, "##end")) ? 1 : 0;
 	if ((i[START] || i[END]) && !(info->option & OPT_Q))
 		ft_print("%s\n", info->buffer);
+	return (1);
 }
 
 t_lem		*get_room(t_info *info, int i[3])
@@ -80,11 +81,11 @@ t_lem		*get_room(t_info *info, int i[3])
 	t_lem	*tmp2;
 
 	tmp = NULL;
+	room = NULL;
 	while (get_next_line(0, &info->buffer) > 0)
 	{
-		if (*info->buffer == '#')
+		if (*info->buffer == '#' && verify_comment(info, i))
 		{
-			verify_comment(info, i);
 			free(info->buffer);
 			continue ;
 		}
