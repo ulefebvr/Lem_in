@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/03 17:31:34 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 20:07:43 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 10:38:08 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdlib.h>
 
-t_path	*translate_path(t_lem *list, t_path *prev)
+t_path	*translate_path(t_lem *list)
 {
 	t_path	*path;
 	t_path	*tmp;
@@ -39,7 +39,7 @@ t_path	*get_path(t_info *info)
 	t_lem	*end;
 
 	end = get_roomstartend(info->list, 1);
-	path = translate_path(end, NULL);
+	path = translate_path(end);
 	return (path);
 }
 

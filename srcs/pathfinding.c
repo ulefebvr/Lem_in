@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 14:18:28 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 20:12:49 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 10:41:25 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_lem	*get_roombyno(t_lem *list, int no)
 	return (begin);
 }
 
-t_lem	*get_nextroom(t_info *info, t_lem *room, int start_no)
+t_lem	*get_nextroom(t_lem *room)
 {
 	t_lem	*ret;
 	t_link	*link;
@@ -66,7 +66,7 @@ int		find_path(t_info *info, t_lem *room, int start_no)
 {
 	t_lem	*next;
 
-	while ((next = get_nextroom(info, room, start_no)))
+	while ((next = get_nextroom(room)))
 	{
 		next->dist = room->dist + get_linkbyno(room->link, next->no)->dist;
 		next->path = room;
