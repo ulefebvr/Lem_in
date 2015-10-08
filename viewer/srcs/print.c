@@ -27,7 +27,7 @@ t_map *get_node_by_num(int num)
   return (begin);
 }
 
-void draw_line(int node_a, int node_b, sfRenderWindow *window)
+void draw_line(int node_a, int node_b, sfRenderTexture *texture)
 {
   t_map *map;
   sfVertexArray *vertex;
@@ -64,37 +64,43 @@ void draw_line(int node_a, int node_b, sfRenderWindow *window)
     y = y + dy;
     i++;
   }
-    
-  sfRenderWindow_drawVertexArray(window, vertex, NULL);
+  sfRenderTexture_drawVertexArray(texture, vertex, NULL);
 }
 
 int test_csfml(void)
 {
-      sfVideoMode mode = {800, 600, 64};
+      sfVideoMode mode = {WIDTH, HEIGHT, 64};
       sfRenderWindow* window;
+      sfRenderWindow* window_save;
       sfEvent event;
       sfCircleShape *circle;
       t_map *map;
-
+      sfRenderTexture *texture;
+      const sfTexture *f_texture;
+      sfSprite* sprite;
+      
       map = ft_global(NULL);
       circle = sfCircleShape_create();
-      sfCircleShape_setRadius(circle, 20);
+      sfCircleShape_setRadius(circle, NODE_SIZE);
       
       int i = 0;
 
       /* Create the main window */
       window = sfRenderWindow_create(mode, "SFML window", sfResize | sfClose, NULL);
-      if (!window)
+      // Create the texture
+      texture = sfRenderTexture_create(WIDTH, HEIGHT, 64);
+      if (!window && !texture)
           return (0);
   
           /* Clear the screen */
           sfRenderWindow_clear(window, sfBlack);
-          // sfVertexArray_setPrimitiveType(vertex, sfLines);
+          // Clear the texture
+          sfRenderTexture_clear(texture, sfBlack);
           while (map)
           {
             while (map->links)
             {
-              draw_line(map->num, map->links->node, window);
+              draw_line(map->num, map->links->node, texture);
               map->links = map->links->next;
             }
             map = map->next;
@@ -102,29 +108,45 @@ int test_csfml(void)
           map = ft_global(NULL);
           while (map)
           {
-            sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * ZOOM) - (ZOOM / 2) , ((map->y) * ZOOM) - (ZOOM / 2)});
+            sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * ZOOM) - ((NODE_SIZE + ZOOM) / 2) , ((map->y) * ZOOM) - (ZOOM / 2)});
             if (map->start)
               sfCircleShape_setFillColor(circle, (sfColor){189, 181, 9, 255});
             else if (map->end)
               sfCircleShape_setFillColor(circle, (sfColor){9, 189, 89, 255});
             else
               sfCircleShape_setFillColor(circle, (sfColor){9, 157, 179, 255});
-            sfRenderWindow_drawCircleShape(window, circle, NULL);
+            sfRenderTexture_drawCircleShape(texture, circle, NULL);
             map = map->next;
           }
+      /* Update the texture */
 
-          /* Update the window */
-          sfRenderWindow_display(window);
-          ft_global(NULL)->window = (void *)window;
+      sprite = sfSprite_create();
+      sfRenderTexture_display(texture);
+      f_texture = sfRenderTexture_getTexture(texture);
+      sfSprite_setTexture(sprite, f_texture, sfTrue);
+      ft_global(NULL)->background = sprite;
+      sfRenderWindow_drawSprite(window, sprite, NULL);
+      sfRenderWindow_display(window);
+      i = 0;
       while (sfRenderWindow_isOpen(window))
       {
           /* Process events */
-          while (sfRenderWindow_pollEvent(window, &event))
+          if (sfRenderWindow_pollEvent(window, &event))
           {
               /* Close window : exit */
               if (event.type == sfEvtClosed)
                   sfRenderWindow_close(window);
           }
+          sfRenderWindow_drawSprite(window, ft_global(NULL)->background, NULL);
+          sprite = sfSprite_create();
+          sfSprite_setTexture(sprite, f_texture, sfTrue);
+          f_texture = sfTexture_createFromFile("ressources/img/cute_image.jpg", NULL);
+          sfSprite_move(sprite, (sfVector2f){i, i});
+          sfRenderWindow_drawSprite(window, sprite, NULL);
+          sfSprite_destroy(sprite);
+          sfRenderWindow_display(window);
+          i++;
+          usleep(5000);
       }
       sfCircleShape_destroy(circle);
 

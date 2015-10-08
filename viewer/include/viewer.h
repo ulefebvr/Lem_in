@@ -1,6 +1,11 @@
 #ifndef VIEWER_H
 # define VIEWER_H
 
+# define ZOOM		60
+# define HEIGHT		1000
+# define WIDTH		2000
+# define NODE_SIZE	10
+
 typedef struct		s_links
 {
 	int				node;
@@ -18,11 +23,9 @@ typedef struct		s_map
 	int				y;
 	char			*name;
 	t_links			*links;
-	void 			*window;
+	void 			*background;
 	struct s_map	*next;
 }					t_map;
-
-#define ZOOM 30
 
 // ft_global.c
 t_map				*ft_global(t_map *map);
