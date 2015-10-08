@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/01 15:21:16 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 14:41:32 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 19:55:33 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,20 @@ t_lem		*get_roombyname(t_info *info, char *name)
 			break ;
 		begin = begin->next;
 	}
-	info->error = (begin) ? 0 : 1;
 	return (begin);
+}
+
+t_link		*add_link(t_link *links, t_lem *to_add, int dist)
+{
+	t_link	*new_link;
+
+	if ((new_link = (t_link *)malloc(sizeof(t_link))))
+	{
+		new_link->room = to_add;
+		new_link->dist = dist;
+		new_link->next = links;
+	}
+	return (new_link);
 }
 
 int			link_rooms(t_info *info, char *nroom1, char *nroom2)
@@ -37,11 +49,13 @@ int			link_rooms(t_info *info, char *nroom1, char *nroom2)
 
 	if (!(room1 = get_roombyname(info, nroom1)) ||
 		!(room2 = get_roombyname(info, nroom2)))
+	{
 		ft_exit(info);
+	}
 	// dist = (info->option && OPT_D) ? distance(room1, room2) : 1;
 	dist = 1;
-	room1->link[room2->no] = dist;
-	room2->link[room1->no] = dist;
+	room1->link = add_link(room1->link, room2, dist);
+	room2->link = add_link(room2->link, room1, dist);
 	return (1);
 }
 
@@ -60,7 +74,7 @@ int			get_links(char *line, t_info *info)
 		{
 			info->error = 1;
 			free(line);
-			ft_exit(info);
+			break ;
 		}
 		ft_freetab(tab);
 		free(line);

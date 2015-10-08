@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 17:38:06 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/04 19:37:42 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 20:10:45 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,20 @@ int			ft_pathlen(t_path *path)
 	while (++i && (begin = begin->next))
 		;
 	return (i);
+}
+
+t_link		*get_linkbyno(t_link *link, int no)
+{
+	t_link	*begin;
+
+	begin = link;
+	while (begin)
+	{
+		if (begin->room->no == no)
+			break ;
+		begin = begin->next;
+	}
+	return (begin);
 }
 
 int			ft_round(float number)
@@ -73,15 +87,53 @@ void		free_paths(t_paths *paths)
 	}
 }
 
+void		free_links(t_link *link)
+{
+	if (link)
+	{
+		if (link->next)
+			free_links(link->next);
+		free(link);
+	}
+}
+
 void		free_list(t_lem *list)
 {
 	if (list)
 	{
 		if (list->next)
 			free_list(list->next);
+		free_links(list->link);
 		free(list->name);
 		free(list);
 	}
+}
+
+t_link		*remove_link(t_link *link, int no)
+{
+	t_link	*begin;
+	t_link	*prev;
+
+	begin = link;
+	prev = NULL;
+	while (begin)
+	{
+		if (begin->room->no == no && prev)
+		{
+			prev->next = begin->next;
+			free(begin);
+			break;
+		}
+		if (begin->room->no == no && !prev)
+		{
+			link = begin->next;
+			free(begin);
+			break;
+		}
+		prev = begin;
+		begin = begin->next;
+	}
+	return (link);
 }
 
 void		ft_exit(t_info *ret)

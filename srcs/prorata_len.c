@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/04 18:45:34 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 13:24:01 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 20:59:04 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	set_maxbypath(t_paths *list, int total, int ant)
 	paths = list;
 	while (1)
 	{
-		paths->max = ft_round((float)ant * ((float)paths->len/(float)total));
+		paths->max = ft_round((float)ant * ((float)paths->len / (float)total));
 		ant -= paths->max;
 		if (!paths->max || !paths->next)
-			break;
+			break ;
 		paths = paths->next;
 	}
 	if (!paths->max)

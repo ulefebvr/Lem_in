@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/03 17:31:34 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 13:17:40 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/05 20:07:43 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 t_path	*translate_path(t_lem *list, t_path *prev)
 {
 	t_path	*path;
+	t_path	*tmp;
+	t_lem	*begin;
 
-	path = NULL;
-	if (list)
+	tmp = NULL;
+	begin = list;
+	while (begin)
 	{
 		path = (t_path *)malloc(sizeof(t_path));
-		path->room = list;
-		path->prev = prev;
-		path->next = translate_path(list->path, path);
+		path->room = begin;
+		path->next = tmp;
+		tmp = path;
+		begin = begin->path;
 	}
 	return (path);
 }
@@ -33,7 +37,6 @@ t_path	*get_path(t_info *info)
 {
 	t_path	*path;
 	t_lem	*end;
-	t_path	*test;
 
 	end = get_roomstartend(info->list, 1);
 	path = translate_path(end, NULL);
@@ -56,7 +59,7 @@ void	remove_path(t_info *info, t_path *path)
 				tmp = tmp->next;
 				continue ;
 			}
-			list->link[tmp->room->no] = 0;
+			list->link = remove_link(list->link, tmp->room->no);
 			tmp = tmp->next;
 		}
 		list->path = NULL;
