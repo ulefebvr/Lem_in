@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 18:05:53 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 15:10:09 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define START	1
 #define END		2
 
-int			ant_number(void)
+int			ant_number(t_info *info)
 {
 	char	*line;
 	int		ret;
@@ -26,10 +26,12 @@ int			ant_number(void)
 	ret = -1;
 	if (get_next_line(0, &line) > 0)
 	{
-		if (*line == '#')
-			ret = ant_number();
-		else if (ft_digit(line))
+		if (ft_digit(line))
+		{
+			if (!(info->option & OPT_Q))
+				ft_print("%s\n", line);
 			ret = ft_atoi(line);
+		}
 		free(line);
 	}
 	return (ret);
@@ -63,6 +65,15 @@ t_lem		*treat_room(char *line, int number, int start, int end)
 	return (room);
 }
 
+int			verify_comment(t_info *info, int i[3])
+{
+	i[START] = (!ft_strcmp(info->buffer, "##start")) ? 1 : 0;
+	i[END] = (!ft_strcmp(info->buffer, "##end")) ? 1 : 0;
+	if ((i[START] || i[END]) && !(info->option & OPT_Q))
+		ft_print("%s\n", info->buffer);
+	return (1);
+}
+
 t_lem		*get_room(t_info *info, int i[3])
 {
 	t_lem	*room;
@@ -70,18 +81,18 @@ t_lem		*get_room(t_info *info, int i[3])
 	t_lem	*tmp2;
 
 	tmp = NULL;
-	info->buffer = NULL;
+	room = NULL;
 	while (get_next_line(0, &info->buffer) > 0)
 	{
-		if (*info->buffer == '#')
+		if (*info->buffer == '#' && verify_comment(info, i))
 		{
-			i[START] = (!ft_strcmp(info->buffer, "##start")) ? 1 : 0;
-			i[END] = (!ft_strcmp(info->buffer, "##end")) ? 1 : 0;
 			free(info->buffer);
 			continue ;
 		}
 		if (!(tmp2 = treat_room(info->buffer, i[NO]++, i[START], i[END])))
 			break ;
+		if (!(info->option & OPT_Q))
+			ft_print("%s\n", info->buffer);
 		room = tmp2;
 		room->next = tmp;
 		tmp = room;
@@ -91,7 +102,7 @@ t_lem		*get_room(t_info *info, int i[3])
 	return (room);
 }
 
-t_info		*ft_parse(void)
+t_info		*ft_parse(int option)
 {
 	t_info	*ret;
 	int		info[3];
@@ -100,7 +111,8 @@ t_info		*ft_parse(void)
 		ft_exit(ret);
 	ft_bzero(ret, sizeof(t_info));
 	ft_bzero(info, sizeof(int) * 3);
-	ret->no_ant = ant_number();
+	ret->option = option;
+	ret->no_ant = ant_number(ret);
 	ret->list = get_room(ret, info);
 	get_links(ret->buffer, ret);
 	ret->error = 0;

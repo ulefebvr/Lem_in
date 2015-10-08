@@ -6,54 +6,62 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 10:17:05 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 19:58:35 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 15:15:54 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "get_next_line.h"
 #include "libft.h"
-#include <stdio.h>
 
-t_lem	*get_endroom(t_lem *list)
+#include <stdlib.h>
+
+void		ft_exit(t_info *ret)
 {
-	t_lem	*begin;
+	t_lem	*list;
+	t_paths	*paths;
 
-	begin = list;
-	while (begin)
-	{
-		if (begin->end)
-			break ;
-		begin = begin->next;
-	}
-	return (begin);
+	list = (!ret) ? NULL : ret->list;
+	paths = (!ret) ? NULL : ret->paths;
+	if (ret->error)
+		write(2, "\nERROR\n", 7);
+	if (ret != NULL)
+		free(ret);
+	free_list(list);
+	free_paths(paths);
+	sleep(10);
 }
 
- int			main(void)
- {
+void		ft_usage(int help)
+{
+	ft_fdprint(2, "usage : ./Lem-in [-dhq] < map_file\n");
+	if (help)
+	{
+		ft_fdprint(2, "-d   found path with real distance calculated from "
+			"coordinates\n");
+		ft_fdprint(2, "-q   quiet mode activated\n");
+		ft_fdprint(2, "-h   help\n");
+	}
+}
+
+int			main(int ac, char **av)
+{
 	t_info	*info;
+	int		i;
+	int		opt;
 
-	info = ft_parse();
+	if (((i = ft_option(ac, av, "dhq", &opt)) < 0) || (ac - i) || (opt & OPT_H))
+		return (ft_usage(opt & OPT_H ? 1 : 0), 0);
+	info = ft_parse(opt);
 	info->no_path = 0;
-
-	// t_lem *begin = info->list;
-	// t_link	*link;
-	// while (begin)
-	// {
-	// 	ft_print("%s %d\n", begin->name, begin->no);
-	// 	link = begin->link;
-	// 	while (link)
-	// 	{
-	// 		ft_print("linked to room no %d named %s", link->room->no, link->room->name);
-	// 		link = link->next;
-	// 	}
-	// 	begin = begin->next;
-	// }
-	// ft_print("done\n");
-
-	info->paths = get_allpaths(info, NULL);
-	set_prorata_len(info);
-	// info->paths = reverse_all(info->paths);
-	sendtopath(info);
+	if (info->list && (info->paths = get_allpaths(info, NULL)))
+	{
+		set_prorata_len(info);
+		if (!(info->option & OPT_Q))
+			ft_print("\n");
+		sendtopath(info);
+	}
+	else
+		info->error = 1;
 	ft_exit(info);
- }
+	return (1);
+}

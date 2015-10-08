@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/01 15:21:16 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 19:55:33 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 14:21:57 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,16 @@ int			link_rooms(t_info *info, char *nroom1, char *nroom2)
 	t_lem	*room2;
 	int		dist;
 
+	room1 = NULL;
+	room2 = NULL;
 	if (!(room1 = get_roombyname(info, nroom1)) ||
 		!(room2 = get_roombyname(info, nroom2)))
-	{
-		ft_exit(info);
-	}
-	// dist = (info->option && OPT_D) ? distance(room1, room2) : 1;
-	dist = 1;
+		return (0);
+	dist = (info->option & OPT_D) ? distance(room1, room2) : 1;
 	room1->link = add_link(room1->link, room2, dist);
 	room2->link = add_link(room2->link, room1, dist);
+	if (!(info->option & OPT_Q))
+		ft_print("%s-%s\n", nroom1, nroom2);
 	return (1);
 }
 

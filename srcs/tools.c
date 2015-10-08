@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 17:38:06 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 20:10:45 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 14:57:20 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,69 +46,6 @@ t_link		*get_linkbyno(t_link *link, int no)
 	return (begin);
 }
 
-int			ft_round(float number)
-{
-	int		rounder;
-
-	rounder = (int)((number - (int)number) * 10);
-	return (rounder >= 5 ? (int)number + 1 : (int)number);
-}
-
-void		ft_freetab(char **tab)
-{
-	int		i;
-
-	i = 0;
-	if (!tab)
-		return ;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-}
-
-void		free_path(t_path *path)
-{
-	if (path)
-	{
-		if (path->next)
-			free_path(path->next);
-		free(path);
-	}
-}
-
-void		free_paths(t_paths *paths)
-{
-	if (paths)
-	{
-		free_path(paths->path);
-		if (paths->next)
-			free_paths(paths->next);
-		free(paths);
-	}
-}
-
-void		free_links(t_link *link)
-{
-	if (link)
-	{
-		if (link->next)
-			free_links(link->next);
-		free(link);
-	}
-}
-
-void		free_list(t_lem *list)
-{
-	if (list)
-	{
-		if (list->next)
-			free_list(list->next);
-		free_links(list->link);
-		free(list->name);
-		free(list);
-	}
-}
-
 t_link		*remove_link(t_link *link, int no)
 {
 	t_link	*begin;
@@ -122,13 +59,13 @@ t_link		*remove_link(t_link *link, int no)
 		{
 			prev->next = begin->next;
 			free(begin);
-			break;
+			break ;
 		}
 		if (begin->room->no == no && !prev)
 		{
 			link = begin->next;
 			free(begin);
-			break;
+			break ;
 		}
 		prev = begin;
 		begin = begin->next;
@@ -136,26 +73,12 @@ t_link		*remove_link(t_link *link, int no)
 	return (link);
 }
 
-void		ft_exit(t_info *ret)
-{
-	t_lem	*list;
-	t_paths	*paths;
-
-	list = (!ret) ? NULL : ret->list;
-	paths = (!ret) ? NULL : ret->paths;
-	if (ret->error)
-		write(2, "ERROR\n", 6);
-	if (ret != NULL)
-		free(ret);
-	free_list(list);
-	free_paths(paths);
-	sleep(5);
-	exit(0);
-}
-
 int			ft_digit(char *str)
 {
+	char *s;
+
+	s = str;
 	while (ft_isdigit(*str))
 		str++;
-	return (*str ? 0 : 1);
+	return (s && *s && !*str ? 1 : 0);
 }

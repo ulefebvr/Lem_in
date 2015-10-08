@@ -6,13 +6,17 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:32:44 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/05 20:08:21 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/08 14:25:43 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 
 # define LEM_IN_H
+
+# define OPT_D	1
+# define OPT_H	2
+# define OPT_Q	4
 
 typedef struct				s_link
 {
@@ -61,6 +65,7 @@ typedef struct				s_info
 	int						no_path;
 	int						error;
 	char					*buffer;
+	int						option;
 }							t_info;
 
 int							ft_tablen(char **tab);
@@ -68,6 +73,8 @@ int							ft_digit(char *str);
 void						ft_exit(t_info *ret);
 int							ft_pathlen(t_path *path);
 int							ft_round(float number);
+
+double						distance(t_lem *a, t_lem *b);
 
 t_lem						*get_roomstartend(t_lem *list, int end);
 t_link						*get_linkbyno(t_link *link, int no);
@@ -81,7 +88,7 @@ void						free_link(t_link *link);
 
 int							get_links(char *line, t_info *info);
 t_lem						*get_room(t_info *info, int inf[4]);
-t_info						*ft_parse(void);
+t_info						*ft_parse(int option);
 
 t_path						*reverse_path(t_path *path, int len);
 t_paths						*reverse_all(t_paths *paths);

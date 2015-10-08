@@ -11,9 +11,11 @@
 #******************************************************************************#
 
 SRC_PATH	=	./srcs/
-SRC_NAME	=	*
+SRC_NAME	=	distance.c getallpath.c main.c parse_links.c parsing.c \
+				pathfinding.c prorata_len.c reverse_path.c sendtopath.c tools.c \
+				free_tools.c
 OBJ_PATH	=	./obj/
-INC_PATH	=	./includes/ ./libft/includes/
+INC_PATH	=	./include/ ./libft/includes/
 NAME		=	./lem-in
 CC			=	gcc
 CFLAGS		=	-Werror -Wall -Wextra
