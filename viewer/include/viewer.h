@@ -36,6 +36,8 @@ typedef struct		s_map
 	void 			*background;
 	t_links			*links;
 	t_ants			*ants;
+	int				speed;
+	int				zoom;
 	struct s_map	*next;
 }					t_map;
 

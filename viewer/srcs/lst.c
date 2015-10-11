@@ -106,6 +106,8 @@ int	lst_add(char **info, int *comment)
 	new->y = ft_atoi(info[2]);
 	new->links = NULL;
 	new->ants = NULL;
+	new->zoom = ZOOM;
+	new->speed = SPEED;
 	new->next = NULL;
 	ft_freetab(info);
 	if (!begin)

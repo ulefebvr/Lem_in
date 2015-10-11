@@ -33,14 +33,18 @@ void move_ant(sfRenderWindow **window, sfSprite *sprite, const sfTexture **f_tex
   t_map *map;
   float x, y, x1, x2, y1, y2, dx, dy, i;
   float longueur;
+  int speed;
+  int zoom;
 
   longueur = 0;
+  speed = ft_global(NULL)->speed;
+  zoom = ft_global(NULL)->zoom;
   map = get_node_by_num(node_a);
-  x1 = (map->x * ZOOM);
-  y1 = (map->y * ZOOM);
+  x1 = (map->x * zoom);
+  y1 = (map->y * zoom);
   map = get_node_by_num(node_b);
-  x2 = (map->x * ZOOM);
-  y2 = (map->y * ZOOM);
+  x2 = (map->x * zoom);
+  y2 = (map->y * zoom);
 
   if (absi(x2 - x1) >= absi(y2 - y1))
     longueur = absi(x2 -  x1);
@@ -65,8 +69,7 @@ void move_ant(sfRenderWindow **window, sfSprite *sprite, const sfTexture **f_tex
     usleep(SPEED);
     x = x + dx;
     y = y + dy;
-    i++;
-  }
+    i++;  }
 }
 
 void draw_line(int node_a, int node_b, sfRenderTexture *texture)
@@ -76,15 +79,17 @@ void draw_line(int node_a, int node_b, sfRenderTexture *texture)
   sfVertex      vert;
   float x, y, x1, x2, y1, y2, dx, dy, i;
   float longueur;
+  int   zoom;
 
   longueur = 0;
+  zoom = ft_global(NULL)->zoom;
   vertex = sfVertexArray_create();
   map = get_node_by_num(node_a);
-  x1 = (map->x * ZOOM);
-  y1 = (map->y * ZOOM);
+  x1 = (map->x * zoom);
+  y1 = (map->y * zoom);
   map = get_node_by_num(node_b);
-  x2 = (map->x * ZOOM);
-  y2 = (map->y * ZOOM);
+  x2 = (map->x * zoom);
+  y2 = (map->y * zoom);
 
   if (absi(x2 - x1) >= absi(y2 - y1))
     longueur = absi(x2 -  x1);
@@ -121,8 +126,10 @@ int test_csfml(void)
       sfRenderTexture *texture;
       const sfTexture *f_texture;
       sfSprite* sprite;
-      
+      int       zoom;
+
       map = ft_global(NULL);
+      zoom = ft_global(NULL)->zoom;
       circle = sfCircleShape_create();
       sfCircleShape_setRadius(circle, NODE_SIZE);
       
@@ -153,7 +160,7 @@ int test_csfml(void)
           map = ft_global(NULL);
           while (map)
           {
-            sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * ZOOM) - NODE_SIZE, ((map->y) * ZOOM) - NODE_SIZE});
+            sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * zoom) - NODE_SIZE, ((map->y) * zoom) - NODE_SIZE});
             if (map->start)
               sfCircleShape_setFillColor(circle, (sfColor){189, 181, 9, 255});
             else if (map->end)
