@@ -42,7 +42,6 @@ void move_ant(sfRenderWindow **window, sfSprite *sprite, const sfTexture **f_tex
   x2 = (map->x * ZOOM);
   y2 = (map->y * ZOOM);
 
-  printf("x1: %fy1: %fx2: %fy2: %f\n", x1, y1, x2, y2);
   if (absi(x2 - x1) >= absi(y2 - y1))
     longueur = absi(x2 -  x1);
   else
@@ -87,7 +86,6 @@ void draw_line(int node_a, int node_b, sfRenderTexture *texture)
   x2 = (map->x * ZOOM);
   y2 = (map->y * ZOOM);
 
-  printf("x1: %fy1: %fx2: %fy2: %f\n", x1, y1, x2, y2);
   if (absi(x2 - x1) >= absi(y2 - y1))
     longueur = absi(x2 -  x1);
   else
@@ -118,6 +116,7 @@ int test_csfml(void)
       sfEvent event;
       sfCircleShape *circle;
       t_map *map;
+      t_links *save;
       sfRenderTexture *texture;
       const sfTexture *f_texture;
       sfSprite* sprite;
@@ -141,10 +140,12 @@ int test_csfml(void)
           sfRenderTexture_clear(texture, sfBlack);
           while (map)
           {
-            while (map->links)
+            if (map->links)
+              save = map->links;
+            while (save)
             {
-              draw_line(map->num, map->links->node, texture);
-              map->links = map->links->next;
+              draw_line(map->num, save->node, texture);
+              save = save->next;
             }
             map = map->next;
           }
@@ -181,9 +182,18 @@ int test_csfml(void)
               else if ((event.type == sfEvtKeyPressed) && (event.key.code == sfKeyEscape))
                 sfRenderWindow_close(window);
           }
-
-          move_ant(&window, sprite, &f_texture, 6, 5);
-          // usleep(5000);
+          map = ft_global(NULL);
+          while (map)
+          {
+            while (map->links)
+            {
+              move_ant(&window, sprite, &f_texture, map->num, map->links->node);
+              map->links = map->links->next;
+            }
+            map = map->next;
+          }
+          usleep(500000);
+          break;
       }
       sfCircleShape_destroy(circle);
 
