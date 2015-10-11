@@ -4,7 +4,8 @@
 # define ZOOM		60
 # define HEIGHT		1000
 # define WIDTH		2000
-# define NODE_SIZE	10
+# define NODE_SIZE	20
+# define SPEED		150000
 
 typedef struct		s_links
 {

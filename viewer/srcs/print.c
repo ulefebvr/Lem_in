@@ -8,14 +8,9 @@
 #include "SFML/Window.h"
 #include <unistd.h>
 
-#include <stdio.h>
+#include "libft.h"
 
-float absi(float i)
-{
-  if (i < 0)
-    return (-i);
-  return (i);
-}
+#include <stdio.h>
 
 t_map *get_node_by_num(int num)
 {
@@ -25,6 +20,54 @@ t_map *get_node_by_num(int num)
   while (begin->num != num)
     begin = begin->next;
   return (begin);
+}
+
+float absi(float i)
+{
+  if (i < 0)
+    return (-i);
+  return (i);
+}
+void move_ant(sfRenderWindow **window, sfSprite *sprite, const sfTexture **f_texture, int node_a, int node_b)
+{
+  t_map *map;
+  float x, y, x1, x2, y1, y2, dx, dy, i;
+  float longueur;
+
+  longueur = 0;
+  map = get_node_by_num(node_a);
+  x1 = (map->x * ZOOM);
+  y1 = (map->y * ZOOM);
+  map = get_node_by_num(node_b);
+  x2 = (map->x * ZOOM);
+  y2 = (map->y * ZOOM);
+
+  printf("x1: %fy1: %fx2: %fy2: %f\n", x1, y1, x2, y2);
+  if (absi(x2 - x1) >= absi(y2 - y1))
+    longueur = absi(x2 -  x1);
+  else
+    longueur = absi(y2 - x1);
+  dx = ((x2 - x1) / longueur) * 5;
+  dy = ((y2 - y1) / longueur) * 5;
+  x = x1 + 0.5;
+  y = y1 + 0.5;
+  i = 1;
+  while (i <= (longueur / 5))
+  {
+    sfRenderWindow_drawSprite(*window, ft_global(NULL)->background, NULL);
+    sprite = sfSprite_create();
+    sfSprite_setTexture(sprite, *f_texture, sfTrue);
+
+    *f_texture = sfTexture_createFromFile((int)i % 2 ? "ressources/img/mario1.png" : "ressources/img/mario2.png", NULL);
+    sfSprite_move(sprite, (sfVector2f){x - 16, y - 50});
+    sfRenderWindow_drawSprite(*window, sprite, NULL);
+    sfSprite_destroy(sprite);
+    sfRenderWindow_display(*window);
+    usleep(SPEED);
+    x = x + dx;
+    y = y + dy;
+    i++;
+  }
 }
 
 void draw_line(int node_a, int node_b, sfRenderTexture *texture)
@@ -108,7 +151,7 @@ int test_csfml(void)
           map = ft_global(NULL);
           while (map)
           {
-            sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * ZOOM) - ((NODE_SIZE + ZOOM) / 2) , ((map->y) * ZOOM) - (ZOOM / 2)});
+            sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * ZOOM) - NODE_SIZE, ((map->y) * ZOOM) - NODE_SIZE});
             if (map->start)
               sfCircleShape_setFillColor(circle, (sfColor){189, 181, 9, 255});
             else if (map->end)
@@ -127,7 +170,6 @@ int test_csfml(void)
       ft_global(NULL)->background = sprite;
       sfRenderWindow_drawSprite(window, sprite, NULL);
       sfRenderWindow_display(window);
-      i = 0;
       while (sfRenderWindow_isOpen(window))
       {
           /* Process events */
@@ -135,18 +177,13 @@ int test_csfml(void)
           {
               /* Close window : exit */
               if (event.type == sfEvtClosed)
-                  sfRenderWindow_close(window);
+                sfRenderWindow_close(window);
+              else if ((event.type == sfEvtKeyPressed) && (event.key.code == sfKeyEscape))
+                sfRenderWindow_close(window);
           }
-          sfRenderWindow_drawSprite(window, ft_global(NULL)->background, NULL);
-          sprite = sfSprite_create();
-          sfSprite_setTexture(sprite, f_texture, sfTrue);
-          f_texture = sfTexture_createFromFile("ressources/img/cute_image.jpg", NULL);
-          sfSprite_move(sprite, (sfVector2f){i, i});
-          sfRenderWindow_drawSprite(window, sprite, NULL);
-          sfSprite_destroy(sprite);
-          sfRenderWindow_display(window);
-          i++;
-          usleep(5000);
+
+          move_ant(&window, sprite, &f_texture, 6, 5);
+          // usleep(5000);
       }
       sfCircleShape_destroy(circle);
 

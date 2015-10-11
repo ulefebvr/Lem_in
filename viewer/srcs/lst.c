@@ -25,7 +25,7 @@ int	lst_add_link(char **link)
 		return (0);
 	map = ft_global(NULL);
 	new = (t_links *)malloc(sizeof(t_links));
-	new->node = get_node_num(link[1]);
+	new->node = get_node_num(link[1]) ? get_node_num(link[1]) : 0;
 	new->next = NULL;
 	while (map && ft_strcmp(map->name, link[0]))
 		map = map->next;
