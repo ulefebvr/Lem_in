@@ -7,6 +7,16 @@
 # define NODE_SIZE	20
 # define SPEED		50000
 
+typedef struct		s_ants
+{
+	int				lap;
+	int				ant_num;
+	int				start;
+	int				step;
+	struct s_ants	*next;
+	struct s_ants	*prev;
+}					t_ants;
+
 typedef struct		s_links
 {
 	int				node;
@@ -23,8 +33,9 @@ typedef struct		s_map
 	int				x;
 	int				y;
 	char			*name;
-	t_links			*links;
 	void 			*background;
+	t_links			*links;
+	t_ants			*ants;
 	struct s_map	*next;
 }					t_map;
 
@@ -38,9 +49,13 @@ int					parse(void);
 int					check_link(char *line);
 char				**is_link(char *line);
 
+// parse_ant.c
+int					check_ant(char *line);
+
 // lst.c
 int					lst_add(char **info, int *comment);
 int					lst_add_link(char **link);
+int					lst_add_ant(char **ants, int lap);
 
 // print.c
 int					test_csfml(void);

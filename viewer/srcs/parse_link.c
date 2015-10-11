@@ -2,15 +2,13 @@
 
 #include "libft.h"
 
-#include <stdio.h>
-
 char	**is_link(char *line)
 {
 	char 	**result;
 
-	if (!(result = ft_strsplit(line, '-')) || !(ft_tablen(result) == 2))
+	if (line[0] == 'L' || !(result = ft_strsplit(line, '-')) || !(ft_tablen(result) == 2))
 	{
-		ft_freetab(result);
+		// ft_freetab(result);
 		return (NULL);
 	}
 	return ((ft_is_tab_digit(result) ? result : NULL));
@@ -26,7 +24,7 @@ int		check_link(char *line)
 		if (!stat && line == NULL)
 			return (-1);
 	}
-	if (!lst_add_link(is_link(line)) && line[0] != '#')
-		return (0);
+	if (line[0] != '#' && !lst_add_link(is_link(line)))
+		return (check_ant(line));
 	return (check_link(NULL));
 }

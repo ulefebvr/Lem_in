@@ -116,6 +116,7 @@ int test_csfml(void)
       sfEvent event;
       sfCircleShape *circle;
       t_map *map;
+      t_ants *ants;
       t_links *save;
       sfRenderTexture *texture;
       const sfTexture *f_texture;
@@ -182,18 +183,14 @@ int test_csfml(void)
               else if ((event.type == sfEvtKeyPressed) && (event.key.code == sfKeyEscape))
                 sfRenderWindow_close(window);
           }
-          map = ft_global(NULL);
-          while (map)
+          ants = ft_global(NULL)->ants;
+          while (ants)
           {
-            while (map->links)
-            {
-              move_ant(&window, sprite, &f_texture, map->num, map->links->node);
-              map->links = map->links->next;
-            }
-            map = map->next;
+            move_ant(&window, sprite, &f_texture, ants->start, ants->step);
+            ants = ants->next;
           }
           usleep(500000);
-          break;
+          break;         
       }
       sfCircleShape_destroy(circle);
 
