@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 10:17:05 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/08 15:15:54 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/12 14:35:41 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		ft_exit(t_info *ret)
 	list = (!ret) ? NULL : ret->list;
 	paths = (!ret) ? NULL : ret->paths;
 	if (ret->error)
-		write(2, "\nERROR\n", 7);
+		write(1, "\nERROR\n", 7);
 	if (ret != NULL)
 		free(ret);
 	free_list(list);

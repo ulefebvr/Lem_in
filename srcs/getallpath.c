@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/03 17:31:34 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/08 10:38:08 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/09 12:02:19 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ t_paths	*get_allpaths(t_info *info, t_paths *prev)
 	t_paths *paths;
 	t_path	*path;
 
+	path = NULL;
 	paths = NULL;
-	pathfinder(info);
-	if (verify_path(path = get_path(info)))
+	if (pathfinder(info) && verify_path(path = get_path(info)))
 	{
 		info->no_path += 1;
 		paths = (t_paths *)malloc(sizeof(t_paths));

@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 14:18:28 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/08 10:41:25 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/09 12:00:24 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ int		pathfinder(t_info *info)
 {
 	t_lem	*start;
 
-	start = get_roomstartend(info->list, 0);
+	if (!(start = get_roomstartend(info->list, 0)) ||
+		!(get_roomstartend(info->list, 1)))
+		return (0);
 	find_path(info, start, start->no);
 	return (1);
 }
