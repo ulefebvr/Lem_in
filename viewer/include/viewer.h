@@ -7,6 +7,8 @@
 # define NODE_SIZE	20
 # define SPEED		50000
 
+#include <stdio.h>
+
 typedef struct		s_ants
 {
 	int				lap;
@@ -34,10 +36,9 @@ typedef struct		s_map
 	int				y;
 	char			*name;
 	void 			*background;
+	int				max;
 	t_links			*links;
 	t_ants			*ants;
-	int				speed;
-	int				zoom;
 	struct s_map	*next;
 }					t_map;
 

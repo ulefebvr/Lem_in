@@ -3,6 +3,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
+#include <stdio.h>
 static int	get_node(char *stat)
 {
 	t_map *map;
@@ -44,12 +45,12 @@ int	lst_add_ant(char **ants, int lap)
 	t_ants *new;
 	t_ants *begin;
 
-	if (!ants)
+	if (!ft_tablen(ants))
 		return (0);
 	begin = ft_global(NULL)->ants;
 	new = (t_ants *)malloc(sizeof(t_ants));
-	new->ant_num = ft_atoi(ants[0]);
-	new->start = get_ant_last_step(new->ant_num);
+	new->ant_num = ft_atoi(&ants[0][1]);
+	new->start = 0;/*get_ant_last_step(new->ant_num);*/
 	new->step = get_node_num(ants[1]);
 	new->lap = lap;
 	new->next = NULL;
@@ -89,6 +90,7 @@ int	lst_add_link(char **link)
 	}
 	else
 		map->links = new;
+	ft_freetab(link);
 	return (1);
 }
 
@@ -96,7 +98,7 @@ int	lst_add(char **info, int *comment)
 {
 	t_map *new;
 	t_map *begin;
-	
+		
 	begin = ft_global(NULL);
 	new = (t_map *)malloc(sizeof(t_map));
 	new->start = comment[0];
@@ -106,8 +108,6 @@ int	lst_add(char **info, int *comment)
 	new->y = ft_atoi(info[2]);
 	new->links = NULL;
 	new->ants = NULL;
-	new->zoom = ZOOM;
-	new->speed = SPEED;
 	new->next = NULL;
 	ft_freetab(info);
 	if (!begin)

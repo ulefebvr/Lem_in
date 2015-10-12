@@ -28,23 +28,20 @@ float absi(float i)
     return (-i);
   return (i);
 }
+
 void move_ant(sfRenderWindow **window, sfSprite *sprite, const sfTexture **f_texture, int node_a, int node_b)
 {
   t_map *map;
   float x, y, x1, x2, y1, y2, dx, dy, i;
   float longueur;
-  int speed;
-  int zoom;
 
   longueur = 0;
-  speed = ft_global(NULL)->speed;
-  zoom = ft_global(NULL)->zoom;
   map = get_node_by_num(node_a);
-  x1 = (map->x * zoom);
-  y1 = (map->y * zoom);
+  x1 = (map->x * ZOOM);
+  y1 = (map->y * ZOOM);
   map = get_node_by_num(node_b);
-  x2 = (map->x * zoom);
-  y2 = (map->y * zoom);
+  x2 = (map->x * ZOOM);
+  y2 = (map->y * ZOOM);
 
   if (absi(x2 - x1) >= absi(y2 - y1))
     longueur = absi(x2 -  x1);
@@ -60,13 +57,12 @@ void move_ant(sfRenderWindow **window, sfSprite *sprite, const sfTexture **f_tex
     sfRenderWindow_drawSprite(*window, ft_global(NULL)->background, NULL);
     sprite = sfSprite_create();
     sfSprite_setTexture(sprite, *f_texture, sfTrue);
-
     *f_texture = sfTexture_createFromFile((int)i % 2 ? "ressources/img/mario1.png" : "ressources/img/mario2.png", NULL);
     sfSprite_move(sprite, (sfVector2f){x - 16, y - 50});
     sfRenderWindow_drawSprite(*window, sprite, NULL);
     sfSprite_destroy(sprite);
     sfRenderWindow_display(*window);
-    usleep(SPEED);
+    // usleep(SPEED);
     x = x + dx;
     y = y + dy;
     i++;  }
@@ -79,17 +75,15 @@ void draw_line(int node_a, int node_b, sfRenderTexture *texture)
   sfVertex      vert;
   float x, y, x1, x2, y1, y2, dx, dy, i;
   float longueur;
-  int   zoom;
 
   longueur = 0;
-  zoom = ft_global(NULL)->zoom;
   vertex = sfVertexArray_create();
   map = get_node_by_num(node_a);
-  x1 = (map->x * zoom);
-  y1 = (map->y * zoom);
+  x1 = (map->x * ZOOM);
+  y1 = (map->y * ZOOM);
   map = get_node_by_num(node_b);
-  x2 = (map->x * zoom);
-  y2 = (map->y * zoom);
+  x2 = (map->x * ZOOM);
+  y2 = (map->y * ZOOM);
 
   if (absi(x2 - x1) >= absi(y2 - y1))
     longueur = absi(x2 -  x1);
@@ -126,10 +120,8 @@ int test_csfml(void)
       sfRenderTexture *texture;
       const sfTexture *f_texture;
       sfSprite* sprite;
-      int       zoom;
 
       map = ft_global(NULL);
-      zoom = ft_global(NULL)->zoom;
       circle = sfCircleShape_create();
       sfCircleShape_setRadius(circle, NODE_SIZE);
       
@@ -160,7 +152,7 @@ int test_csfml(void)
           map = ft_global(NULL);
           while (map)
           {
-            sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * zoom) - NODE_SIZE, ((map->y) * zoom) - NODE_SIZE});
+            sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * ZOOM) - NODE_SIZE, ((map->y) * ZOOM) - NODE_SIZE});
             if (map->start)
               sfCircleShape_setFillColor(circle, (sfColor){189, 181, 9, 255});
             else if (map->end)
@@ -196,7 +188,6 @@ int test_csfml(void)
             move_ant(&window, sprite, &f_texture, ants->start, ants->step);
             ants = ants->next;
           }
-          usleep(500000);
           break;         
       }
       sfCircleShape_destroy(circle);
