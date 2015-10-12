@@ -47,6 +47,7 @@ t_map				*ft_global(t_map *map);
 
 // parse.c
 int					parse(void);
+int					check_node(char *line);
 
 // parse_link.c
 int					check_link(char *line);

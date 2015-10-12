@@ -38,6 +38,8 @@ static int 	get_node(int *comment, char *line)
 		free(line);
 		return (1);
 	}
+	if (*line == '#')
+		return (check_node(line));
 	if (!(result = ft_strsplit(line, ' ')) || (ft_tablen(result) != 3))
 	{
 		if (result)	
@@ -48,7 +50,7 @@ static int 	get_node(int *comment, char *line)
 	return (lst_add(result, comment));
 }
 
-static int	check_node(char *line)
+int	check_node(char *line)
 {
 	int		stat;
 	int		comment[2];
