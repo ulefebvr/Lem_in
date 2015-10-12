@@ -12,7 +12,7 @@ char	**is_link(char *line)
 		// ft_freetab(result);
 		return (NULL);
 	}
-	return ((ft_is_tab_digit(result) ? result : NULL));
+	return (result);
 }
 
 int		check_link(char *line)

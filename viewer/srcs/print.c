@@ -62,7 +62,7 @@ void move_ant(sfRenderWindow **window, sfSprite *sprite, const sfTexture **f_tex
     sfRenderWindow_drawSprite(*window, sprite, NULL);
     sfSprite_destroy(sprite);
     sfRenderWindow_display(*window);
-    // usleep(SPEED);
+    usleep(SPEED);
     x = x + dx;
     y = y + dy;
     i++;  }

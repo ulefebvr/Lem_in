@@ -50,7 +50,7 @@ int	lst_add_ant(char **ants, int lap)
 	begin = ft_global(NULL)->ants;
 	new = (t_ants *)malloc(sizeof(t_ants));
 	new->ant_num = ft_atoi(&ants[0][1]);
-	new->start = 0;/*get_ant_last_step(new->ant_num);*/
+	new->start = get_ant_last_step(new->ant_num);
 	new->step = get_node_num(ants[1]);
 	new->lap = lap;
 	new->next = NULL;
