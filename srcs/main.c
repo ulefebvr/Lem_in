@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/02 10:17:05 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/12 14:35:41 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/12 14:48:41 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int			main(int ac, char **av)
 		return (ft_usage(opt & OPT_H ? 1 : 0), 0);
 	info = ft_parse(opt);
 	info->no_path = 0;
-	if (info->list && (info->paths = get_allpaths(info, NULL)))
+	if (info->no_ant && info->list && (info->paths = get_allpaths(info, NULL)))
 	{
 		set_prorata_len(info);
 		if (!(info->option & OPT_Q))

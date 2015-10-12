@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/09/30 14:30:56 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/08 15:10:09 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/12 14:43:45 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int			verify_comment(t_info *info, int i[3])
 {
 	i[START] = (!ft_strcmp(info->buffer, "##start")) ? 1 : 0;
 	i[END] = (!ft_strcmp(info->buffer, "##end")) ? 1 : 0;
-	if ((i[START] || i[END]) && !(info->option & OPT_Q))
-		ft_print("%s\n", info->buffer);
 	return (1);
 }
 
@@ -85,18 +83,18 @@ t_lem		*get_room(t_info *info, int i[3])
 	while (get_next_line(0, &info->buffer) > 0)
 	{
 		if (*info->buffer == '#' && verify_comment(info, i))
+			;
+		else if ((tmp2 = treat_room(info->buffer, i[NO]++, i[START], i[END])))
 		{
-			free(info->buffer);
-			continue ;
+			room = tmp2;
+			room->next = tmp;
+			tmp = room;
+			ft_bzero(&i[1], sizeof(int) * 2);
 		}
-		if (!(tmp2 = treat_room(info->buffer, i[NO]++, i[START], i[END])))
+		else
 			break ;
 		if (!(info->option & OPT_Q))
 			ft_print("%s\n", info->buffer);
-		room = tmp2;
-		room->next = tmp;
-		tmp = room;
-		ft_bzero(&i[1], sizeof(int) * 2);
 		free(info->buffer);
 	}
 	return (room);

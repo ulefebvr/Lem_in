@@ -6,7 +6,7 @@
 /*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/01 15:21:16 by ulefebvr          #+#    #+#             */
-/*   Updated: 2015/10/08 14:21:57 by ulefebvr         ###   ########.fr       */
+/*   Updated: 2015/10/12 14:46:24 by ulefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int			get_links(char *line, t_info *info)
 			free(line);
 			break ;
 		}
+		if (!(info->option & OPT_Q))
+			ft_print("%s\n", line);
 		ft_freetab(tab);
 		free(line);
 		line = NULL;
