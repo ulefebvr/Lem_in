@@ -8,7 +8,6 @@ int		is_ant(char *line, int lap)
 	char 	**result;
 	int		i;
 
-	char **test;
 	i = 0;
 	if (line[0] != 'L')
 		return (0);

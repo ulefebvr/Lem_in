@@ -104,8 +104,8 @@ int	lst_add(char **info, int *comment)
 	new->start = comment[0];
 	new->end = comment[1];
 	new->name = ft_strdup(info[0]);
-	new->x = ft_atoi(info[1]);
-	new->y = ft_atoi(info[2]);
+	new->x = ft_atoi(info[1]) + 1;
+	new->y = ft_atoi(info[2]) + 1;
 	new->links = NULL;
 	new->ants = NULL;
 	new->next = NULL;

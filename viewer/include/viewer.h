@@ -2,9 +2,8 @@
 # define VIEWER_H
 
 # define ZOOM		60
-# define HEIGHT		1000
+# define HEIGHT		2000
 # define WIDTH		2000
-# define NODE_SIZE	20
 # define SPEED		50000
 
 #include <stdio.h>
@@ -48,6 +47,9 @@ typedef struct		s_map
 	void			*sprite;
 	void			*window;
 	void			*f_texture;
+	void			*circle;
+	int				zoom;
+	int				node_size;
 	t_links			*links;
 	t_ants			*ants;
 	struct s_map	*next;
@@ -74,6 +76,8 @@ int					lst_add_ant(char **ants, int lap);
 
 // print.c
 int					test_csfml(void);
+int					ft_get_window(void);
+void				calc_ant(t_ants *ants);
 
 // Compilation:
 // gcc srcs/* -I include -I libft/includes libft/libft.a -I ~/.brew/include -L ~/.brew/lib -lcsfml-system -lcsfml-window -lcsfml-graphics -lcsfml-network -lcsfml-audio -Wl,-rpath,$HOME/.brew/lib

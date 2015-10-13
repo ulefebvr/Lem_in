@@ -18,7 +18,6 @@ char	**is_link(char *line)
 int		check_link(char *line)
 {
 	int		stat;
-	static int i;
 
 	if (!line)
 	{
