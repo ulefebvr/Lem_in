@@ -29,43 +29,74 @@ float absi(float i)
   return (i);
 }
 
-void move_ant(sfRenderWindow **window, sfSprite *sprite, const sfTexture **f_texture, int node_a, int node_b)
+void  calc_ant(t_ants *ants)
 {
   t_map *map;
-  float x, y, x1, x2, y1, y2, dx, dy, i;
-  float longueur;
+  float x1;
+  float x2;
+  float y1;
+  float y2;
 
-  longueur = 0;
-  map = get_node_by_num(node_a);
-  x1 = (map->x * ZOOM);
-  y1 = (map->y * ZOOM);
-  map = get_node_by_num(node_b);
-  x2 = (map->x * ZOOM);
-  y2 = (map->y * ZOOM);
-
-  if (absi(x2 - x1) >= absi(y2 - y1))
-    longueur = absi(x2 -  x1);
-  else
-    longueur = absi(y2 - x1);
-  dx = ((x2 - x1) / longueur) * 5;
-  dy = ((y2 - y1) / longueur) * 5;
-  x = x1 + 0.5;
-  y = y1 + 0.5;
-  i = 1;
-  while (i <= (longueur / 5))
+  while (ants)
   {
-    sfRenderWindow_drawSprite(*window, ft_global(NULL)->background, NULL);
-    sprite = sfSprite_create();
-    sfSprite_setTexture(sprite, *f_texture, sfTrue);
-    *f_texture = sfTexture_createFromFile((int)i % 2 ? "ressources/img/mario1.png" : "ressources/img/mario2.png", NULL);
-    sfSprite_move(sprite, (sfVector2f){x - 16, y - 50});
-    sfRenderWindow_drawSprite(*window, sprite, NULL);
-    sfSprite_destroy(sprite);
-    sfRenderWindow_display(*window);
+    map = get_node_by_num(ants->start);
+    x1 = (map->x * ZOOM);
+    y1 = (map->y * ZOOM);
+    map = get_node_by_num(ants->step);
+    x2 = (map->x * ZOOM);
+    y2 = (map->y * ZOOM);
+    if (absi(x2 - x1) >= absi(y2 - y1))
+      ants->longueur = absi(x2 -  x1);
+    else
+      ants->longueur = absi(y2 - x1);
+    ants->dx = ((x2 - x1) / ants->longueur) * 5;
+    ants->dy = ((y2 - y1) / ants->longueur) * 5;
+    ants->x = x1 + 0.5;
+    ants->y = y1 + 0.5;
+    ants->i = 1;
+    ants = ants->next;
+  }
+}
+
+t_ants  *print_ant(t_ants *lista, int lap)
+{
+  t_ants *list;
+
+  list = lista;
+  while (list && list->lap == lap)
+  {
+    sfRenderWindow_drawSprite((sfRenderWindow *)ft_global(NULL)->window, ft_global(NULL)->background, NULL);
+    ft_global(NULL)->sprite = (void *)sfSprite_create();
+    sfSprite_setTexture((sfSprite *)ft_global(NULL)->sprite, (sfTexture *)ft_global(NULL)->f_texture, sfTrue);
+    ft_global(NULL)->f_texture = (void *)sfTexture_createFromFile((int)list->i % 2 ? "ressources/img/mario1.png" : "ressources/img/mario2.png", NULL);
+    sfSprite_move((sfSprite *)ft_global(NULL)->sprite, (sfVector2f){list->x - 16, list->y - 50});
+    sfRenderWindow_drawSprite((sfRenderWindow *)ft_global(NULL)->window, (sfSprite *)ft_global(NULL)->sprite, NULL);
+    sfSprite_destroy((sfSprite *)ft_global(NULL)->sprite);
+    sfRenderWindow_display((sfRenderWindow *)ft_global(NULL)->window);
     usleep(SPEED);
-    x = x + dx;
-    y = y + dy;
-    i++;  }
+    list->x += list->dx;
+    list->y += list->dy;
+    list->i++;
+    list = list->next;
+  }
+  return (lista->i <= (lista->longueur / 5) ? lista : list);
+}
+
+void  print_them_all(t_ants *list)
+{
+  int lap;
+  t_ants *tmp;
+
+  lap = 0;
+  calc_ant(list);
+  tmp = list;
+  while (tmp)
+  {
+    // cal_new_pos(tmp, lap);
+    while ((tmp = print_ant(tmp, lap))->lap == lap)
+      ;
+    lap++;
+  }
 }
 
 void draw_line(int node_a, int node_b, sfRenderTexture *texture)
@@ -162,8 +193,8 @@ int test_csfml(void)
             sfRenderTexture_drawCircleShape(texture, circle, NULL);
             map = map->next;
           }
-      /* Update the texture */
 
+      /* Update the texture */
       sprite = sfSprite_create();
       sfRenderTexture_display(texture);
       f_texture = sfRenderTexture_getTexture(texture);
@@ -171,6 +202,9 @@ int test_csfml(void)
       ft_global(NULL)->background = sprite;
       sfRenderWindow_drawSprite(window, sprite, NULL);
       sfRenderWindow_display(window);
+      ft_global(NULL)->window = (void *)window;
+      ft_global(NULL)->sprite = (void *)sprite;
+      ft_global(NULL)->f_texture = (void *)f_texture;
       while (sfRenderWindow_isOpen(window))
       {
           /* Process events */
@@ -182,18 +216,13 @@ int test_csfml(void)
               else if ((event.type == sfEvtKeyPressed) && (event.key.code == sfKeyEscape))
                 sfRenderWindow_close(window);
           }
-          ants = ft_global(NULL)->ants;
-          while (ants)
-          {
-            move_ant(&window, sprite, &f_texture, ants->start, ants->step);
-            ants = ants->next;
-          }
+          print_them_all(ft_global(NULL)->ants);
           break;         
       }
       sfCircleShape_destroy(circle);
 
       /* Cleanup resources */
       sfRenderWindow_destroy(window);
-  
+
       return (1);
 }

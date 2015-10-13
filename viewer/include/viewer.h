@@ -15,6 +15,12 @@ typedef struct		s_ants
 	int				ant_num;
 	int				start;
 	int				step;
+	float			x;
+	float			y;
+	float			dx;
+	float			dy;
+	float			longueur;
+	float			i;
 	struct s_ants	*next;
 	struct s_ants	*prev;
 }					t_ants;
@@ -36,7 +42,12 @@ typedef struct		s_map
 	int				y;
 	char			*name;
 	void 			*background;
+	void 			*ant1;
+	void 			*ant2;
 	int				max;
+	void			*sprite;
+	void			*window;
+	void			*f_texture;
 	t_links			*links;
 	t_ants			*ants;
 	struct s_map	*next;
