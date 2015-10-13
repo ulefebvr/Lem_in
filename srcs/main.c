@@ -28,7 +28,6 @@ void		ft_exit(t_info *ret)
 		free(ret);
 	free_list(list);
 	free_paths(paths);
-	sleep(10);
 }
 
 void		ft_usage(int help)

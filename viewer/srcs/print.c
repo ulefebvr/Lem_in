@@ -63,22 +63,21 @@ t_ants  *print_ant(t_ants *lista, int lap)
   t_ants *list;
 
   list = lista;
+  sfRenderWindow_drawSprite((sfRenderWindow *)ft_global(NULL)->window, (sfSprite *)ft_global(NULL)->background, NULL);
   while (list && list->lap == lap)
   {
-    sfRenderWindow_drawSprite((sfRenderWindow *)ft_global(NULL)->window, ft_global(NULL)->background, NULL);
     ft_global(NULL)->sprite = (void *)sfSprite_create();
-    sfSprite_setTexture((sfSprite *)ft_global(NULL)->sprite, (sfTexture *)ft_global(NULL)->f_texture, sfTrue);
-    ft_global(NULL)->f_texture = (void *)sfTexture_createFromFile((int)list->i % 2 ? "ressources/img/mario1.png" : "ressources/img/mario2.png", NULL);
+    sfSprite_setTexture((sfSprite *)ft_global(NULL)->sprite, ((int)list->i % 2) ? (sfTexture *)ft_global(NULL)->ant1 : (sfTexture *)ft_global(NULL)->ant2, sfTrue);
     sfSprite_move((sfSprite *)ft_global(NULL)->sprite, (sfVector2f){list->x - 16, list->y - 50});
     sfRenderWindow_drawSprite((sfRenderWindow *)ft_global(NULL)->window, (sfSprite *)ft_global(NULL)->sprite, NULL);
     sfSprite_destroy((sfSprite *)ft_global(NULL)->sprite);
-    sfRenderWindow_display((sfRenderWindow *)ft_global(NULL)->window);
-    usleep(SPEED);
     list->x += list->dx;
     list->y += list->dy;
     list->i++;
     list = list->next;
   }
+  sfRenderWindow_display((sfRenderWindow *)ft_global(NULL)->window);
+  usleep(SPEED);
   return (lista->i <= (lista->longueur / 5) ? lista : list);
 }
 
@@ -92,8 +91,7 @@ void  print_them_all(t_ants *list)
   tmp = list;
   while (tmp)
   {
-    // cal_new_pos(tmp, lap);
-    while ((tmp = print_ant(tmp, lap))->lap == lap)
+    while ((tmp = print_ant(tmp, lap)) && tmp->lap == lap)
       ;
     lap++;
   }
@@ -162,6 +160,8 @@ int test_csfml(void)
       window = sfRenderWindow_create(mode, "SFML window", sfResize | sfClose, NULL);
       // Create the texture
       texture = sfRenderTexture_create(WIDTH, HEIGHT, 64);
+      ft_global(NULL)->ant1 = (void *)sfTexture_createFromFile("ressources/img/mario1.png", NULL);
+      ft_global(NULL)->ant2 = (void *)sfTexture_createFromFile("ressources/img/mario2.png", NULL);
       if (!window && !texture)
           return (0);
   
@@ -217,6 +217,7 @@ int test_csfml(void)
                 sfRenderWindow_close(window);
           }
           print_them_all(ft_global(NULL)->ants);
+          sleep(2);
           break;         
       }
       sfCircleShape_destroy(circle);
