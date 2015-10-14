@@ -53,7 +53,7 @@ static int 	get_node(int *comment, char *line)
 	return (i++, lst_add(result, comment));
 }
 
-int	check_node(char *line)
+int			check_node(char *line)
 {
 	int		stat;
 	int		comment[2];
@@ -68,7 +68,7 @@ int	check_node(char *line)
 	return (stat < 1 ? stat : check_node(NULL));
 }
 
-int	parse(void)
+int			parse(void)
 {
 	if (!check_node(begin_parse()))
 	{

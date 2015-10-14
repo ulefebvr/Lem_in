@@ -82,10 +82,21 @@ int					lst_add(char **info, int *comment);
 int					lst_add_link(char **link);
 int					lst_add_ant(char **ants, int lap);
 
+// get_elem.c
+int					get_ant_last_step(int ant_num);
+int					get_node_num(char *name);
+int					get_node_stat(char *stat);
+t_map				*get_node_by_num(int num);
+
 // print.c
 int					test_csfml(void);
 int					ft_get_window(void);
 void				calc_ant(t_ants *ants);
+
+// event.c
+void				ft_set_key(char *action);
+void				ft_set_perso();
+void				get_event(sfRenderWindow *window);
 
 // free.c
 void				ft_free_struct(t_map *map, sfRenderWindow *window);

@@ -6,6 +6,6 @@
 int main(void)
 {
 	parse();
-	test_csfml();
+	print_all();
 	return (0);
 }

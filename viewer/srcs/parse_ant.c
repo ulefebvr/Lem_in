@@ -10,7 +10,6 @@ int		is_ant(char *line, int lap)
 	i = 0;
 	if (line[0] != 'L')
 		return (0);
-	// Verifier avec un seul deplacement
 	if (!(result = ft_strsplit(line, ' ')))
 		return (ft_freetab(result), 0);
 	while (result[i])
