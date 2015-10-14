@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lst.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rclanget <rclanget@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/10/14 23:01:19 by rclanget          #+#    #+#             */
+/*   Updated: 2015/10/14 23:01:19 by rclanget         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "viewer.h"
 
 #include "libft.h"
@@ -62,7 +74,7 @@ int	lst_add(char **info, int *comment)
 {
 	t_map *new;
 	t_map *begin;
-		
+
 	begin = ft_global(NULL);
 	new = (t_map *)malloc(sizeof(t_map));
 	new->start = comment[0];

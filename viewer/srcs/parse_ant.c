@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_ant.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rclanget <rclanget@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/10/14 23:01:42 by rclanget          #+#    #+#             */
+/*   Updated: 2015/10/14 23:01:42 by rclanget         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "viewer.h"
 
 #include "libft.h"
 
 int		is_ant(char *line, int lap)
 {
-	char 	**result;
+	char	**result;
 	int		i;
 
 	i = 0;
@@ -24,8 +36,8 @@ int		is_ant(char *line, int lap)
 
 int		check_ant(char *line)
 {
-	static	int i;
-	int		stat;
+	static	int	i;
+	int			stat;
 
 	if (!line)
 	{

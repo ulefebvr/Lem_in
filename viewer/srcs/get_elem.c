@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_elem.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rclanget <rclanget@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/10/14 23:01:10 by rclanget          #+#    #+#             */
+/*   Updated: 2015/10/14 23:01:12 by rclanget         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "viewer.h"
 
 #include "libft.h"
@@ -11,13 +23,15 @@ int		get_max_longueur(t_ants *ants, int lap)
 	max = 0;
 	while (ants && ants->lap == lap)
 	{
-	if (ants->longueur > max)
-		max = ants->longueur;
-	ants = ants->next;	}	while (ants)
+		if (ants->longueur > max)
+			max = ants->longueur;
+		ants = ants->next;
+	}
+	while (ants)
 	{
-	if (ants->longueur == max && ants->i <= (max / 5))
-		return (1);
-	ants = ants->prev;
+		if (ants->longueur == max && ants->i <= (max / 5))
+			return (1);
+		ants = ants->prev;
 	}
 	return (0);
 }

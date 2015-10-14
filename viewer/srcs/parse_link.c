@@ -1,14 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_link.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rclanget <rclanget@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/10/14 23:01:48 by rclanget          #+#    #+#             */
+/*   Updated: 2015/10/14 23:01:48 by rclanget         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "viewer.h"
 
 #include "libft.h"
 
 char	**is_link(char *line)
 {
-	char 	**result;
+	char	**result;
 
 	result = NULL;
-	if (line[0] == 'L' || !(result = ft_strsplit(line, '-')) || !(ft_tablen(result) == 2))
-	{	
+	if (line[0] == 'L' || !(result = ft_strsplit(line, '-')) || \
+		!(ft_tablen(result) == 2))
+	{
 		ft_freetab(result);
 		return (NULL);
 	}
@@ -17,8 +30,8 @@ char	**is_link(char *line)
 
 int		check_link(char *line)
 {
-	int		stat;
-	static int i;
+	int			stat;
+	static int	i;
 
 	if (!line)
 	{

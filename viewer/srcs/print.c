@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rclanget <rclanget@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/10/14 23:01:54 by rclanget          #+#    #+#             */
+/*   Updated: 2015/10/14 23:01:54 by rclanget         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "viewer.h"
 
 #include "SFML/Audio.h"
@@ -6,118 +18,106 @@
 #include "SFML/OpenGL.h"
 #include "SFML/System.h"
 #include "SFML/Window.h"
-#include <unistd.h>
 #include "libft.h"
 
-void ft_update_texture(sfRenderTexture *texture, sfRenderWindow *window)
+void	ft_update_texture(sfRenderTexture *texture, sfRenderWindow *window)
 {
-  sfSprite* sprite;
-  const sfTexture *f_texture;
+	sfSprite		*sprite;
+	const sfTexture	*f_texture;
 
-  /* Update the texture */
-  sprite = sfSprite_create();
-  sfRenderTexture_display(texture);
-  f_texture = sfRenderTexture_getTexture(texture);
-  sfSprite_setTexture(sprite, f_texture, sfTrue);
-  ft_global(NULL)->background = sprite;
-  sfRenderWindow_drawSprite(window, sprite, NULL);
-  sfRenderWindow_display(window);
-  ft_global(NULL)->window = (void *)window;
-  ft_global(NULL)->sprite = (void *)sprite;
-  ft_global(NULL)->f_texture = (void *)f_texture;
-
+	sprite = sfSprite_create();
+	sfRenderTexture_display(texture);
+	f_texture = sfRenderTexture_getTexture(texture);
+	sfSprite_setTexture(sprite, f_texture, sfTrue);
+	GLOB->background = sprite;
+	sfRenderWindow_drawSprite(window, sprite, NULL);
+	sfRenderWindow_display(window);
+	GLOB->window = (void *)window;
+	GLOB->sprite = (void *)sprite;
+	GLOB->f_texture = (void *)f_texture;
 }
 
-void draw_background(sfRenderTexture **texture, sfRenderWindow *window, sfCircleShape **circle)
+void	draw_node(sfRenderTexture *texture, t_map *map)
 {
-  t_links *save;
-  t_map *map;
+	sfCircleShape *circle;
 
-  map = ft_global(NULL);
-  /* Clear the screen */
-  sfRenderWindow_clear(window, MYBROWN);
-  // Clear the texture
-  sfRenderTexture_clear(*texture, MYBROWN);
-  while (map)
-  {
-    if (map->links)
-      save = map->links;
-    while (save)
-    {
-      draw_line(map->num, save->node, *texture, MYGREY);
-      save = save->next;
-    }
-    map = map->next;
-  }
-  map = ft_global(NULL);
-  while (map)
-  {
-    sfCircleShape_setPosition(*circle, (sfVector2f){((map->x) * ft_global(NULL)->zoom) - ft_global(NULL)->node_size, ((map->y) * ft_global(NULL)->zoom) - ft_global(NULL)->node_size});
-    if (map->start)
-      sfCircleShape_setFillColor(*circle, MYGREEN);
-    else if (map->end)
-      sfCircleShape_setFillColor(*circle, MYBLUE);
-    else
-      sfCircleShape_setFillColor(*circle, MYGREY);
-    if (is_on_good_way(map->num))
-    {
-      sfCircleShape_setOutlineThickness(*circle, 2.5);
-      sfCircleShape_setOutlineColor(*circle, MYBLUE);
-    }
-    sfRenderTexture_drawCircleShape(*texture, *circle, NULL);
-    map = map->next;
-  }
+	circle = sfCircleShape_create();
+	sfCircleShape_setRadius(circle, GLOB->node_size);
+	GLOB->circle = (void *)circle;
+	while (map)
+	{
+		sfCircleShape_setPosition(circle, (sfVector2f){((map->x) * GLOB->zoom) \
+			- GLOB->node_size, ((map->y) * GLOB->zoom) - GLOB->node_size});
+		if (map->start)
+			sfCircleShape_setFillColor(circle, MYGREEN);
+		else if (map->end)
+			sfCircleShape_setFillColor(circle, MYBLUE);
+		else
+			sfCircleShape_setFillColor(circle, MYGREY);
+		if (is_on_good_way(map->num))
+		{
+			sfCircleShape_setOutlineThickness(circle, 2.5);
+			sfCircleShape_setOutlineColor(circle, MYBLUE);
+		}
+		sfRenderTexture_drawCircleShape(texture, circle, NULL);
+		map = map->next;
+	}
 }
 
-int ft_init_window(sfRenderTexture **texture, sfCircleShape **circle)
+void	draw_background(sfRenderTexture **texture, sfRenderWindow *window)
 {
-  ft_global(NULL)->zoom = ft_global(NULL)->zoom ? ft_global(NULL)->zoom : ZOOM;
-  ft_global(NULL)->node_size = ft_global(NULL)->zoom / 3 ? ft_global(NULL)->zoom / 3 : 1;
-  if (!(sfRenderWindow *)ft_global(NULL)->window && !texture)
-    return (0);
-  *circle = sfCircleShape_create();
-  sfCircleShape_setRadius(*circle, ft_global(NULL)->node_size);
-  // Create the texture
-  *texture = sfRenderTexture_create(WIDTH, HEIGHT, 64);
-  return (1);
+	t_links	*save;
+	t_map	*map;
+
+	map = GLOB;
+	sfRenderWindow_clear(window, MYBROWN);
+	sfRenderTexture_clear(*texture, MYBROWN);
+	while (map)
+	{
+		if (map->links)
+			save = map->links;
+		while (save)
+		{
+			draw_line(map->num, save->node, *texture);
+			save = save->next;
+		}
+		map = map->next;
+	}
+	draw_node(*texture, GLOB);
 }
 
-int ft_get_window(void)
+int		ft_get_window(void)
 {
-  sfRenderTexture *texture;
-  sfRenderWindow *window;
-  sfCircleShape *circle;
+	sfRenderTexture	*texture;
+	sfRenderWindow	*window;
 
-  window = NULL;
-  texture = NULL;
-  circle = NULL;
-  ft_init_window(&texture, &circle);
-  window = (sfRenderWindow *)ft_global(NULL)->window;
-  ft_global(NULL)->circle = (void *)circle;
-  draw_background(&texture, window, &circle);
-  ft_update_texture(texture, window);
-  return (1);
+	texture = sfRenderTexture_create(WIDTH, HEIGHT, 64);
+	window = (sfRenderWindow *)GLOB->window;
+	GLOB->zoom = GLOB->zoom ? GLOB->zoom : ZOOM;
+	GLOB->node_size = GLOB->zoom / 3 ? GLOB->zoom / 3 : 1;
+	if (!(sfRenderWindow *)GLOB->window)
+		return (0);
+	draw_background(&texture, window);
+	ft_update_texture(texture, window);
+	return (1);
 }
 
-int print_all(void)
+int		print_all(void)
 {
-      sfRenderWindow *window;
-      sfVideoMode mode = {WIDTH, HEIGHT, 64};
-      
-      window = NULL;
-      ft_global(NULL)->zoom = 0;
-      /* Create the main window */
-      ft_global(NULL)->window = (void *)sfRenderWindow_create(mode, "SFML window", sfResize | sfClose, NULL);
-      ft_get_window();
-      ft_set_perso();
-      window = ft_global(NULL)->window;
-      while (sfRenderWindow_isOpen(window))
-      {
-          print_them_all(ft_global(NULL)->ants);
-          break;         
-      }
-      /* Cleanup resources */
-      ft_free_struct(ft_global(NULL), window);
+	sfRenderWindow	*window;
 
-      return (1);
+	window = NULL;
+	GLOB->zoom = 0;
+	GLOB->window = (void *)sfRenderWindow_create((sfVideoMode){WIDTH, \
+		HEIGHT, 64}, "SFML window", sfResize | sfClose, NULL);
+	ft_get_window();
+	ft_set_perso();
+	window = GLOB->window;
+	while (sfRenderWindow_isOpen(window))
+	{
+		print_them_all(GLOB->ants);
+		break ;
+	}
+	ft_free_struct(GLOB, window);
+	return (1);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rclanget <rclanget@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/10/14 23:01:36 by rclanget          #+#    #+#             */
+/*   Updated: 2015/10/14 23:01:36 by rclanget         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "viewer.h"
 
 #include "libft.h"
@@ -6,7 +18,7 @@ static char	*begin_parse(void)
 {
 	char *line;
 	char **result;
-	
+
 	line = NULL;
 	while (get_next_line(0, &line) > 0)
 	{
@@ -30,10 +42,10 @@ static int	*is_comment(char **line, int *comment)
 	return (comment);
 }
 
-static int 	get_node(int *comment, char *line)
+static int	get_node(int *comment, char *line)
 {
-	char **result;
-	static int i;
+	char		**result;
+	static int	i;
 
 	if (!ft_strlen(line))
 	{
@@ -46,7 +58,7 @@ static int 	get_node(int *comment, char *line)
 	{
 		ft_freetab(result);
 		if (is_link(line) && i)
-			return check_link(line);
+			return (check_link(line));
 		return (free(line), 0);
 	}
 	free(line);
