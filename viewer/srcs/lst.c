@@ -3,7 +3,6 @@
 #include "libft.h"
 #include <stdlib.h>
 
-#include <stdio.h>
 static int	get_node(char *stat)
 {
 	t_map *map;

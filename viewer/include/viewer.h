@@ -1,6 +1,8 @@
 #ifndef VIEWER_H
 # define VIEWER_H
 
+#include "SFML/Graphics.h"
+
 # define ZOOM		60
 # define HEIGHT		2000
 # define WIDTH		2000
@@ -13,8 +15,6 @@
 # define MYGREEN	(sfColor){9, 189, 89, 255}
 # define MYBLUE		(sfColor){9, 157, 179, 255}
 # define MYRED		(sfColor){189, 24, 9, 255}
-
-#include <stdio.h>
 
 typedef struct		s_ants
 {
@@ -88,7 +88,7 @@ int					ft_get_window(void);
 void				calc_ant(t_ants *ants);
 
 // free.c
-void				ft_free_struct(t_map *map);
+void				ft_free_struct(t_map *map, sfRenderWindow *window);
 
 // Compilation:
 // gcc srcs/* -I include -I libft/includes libft/libft.a -I ~/.brew/include -L ~/.brew/lib -lcsfml-system -lcsfml-window -lcsfml-graphics -lcsfml-network -lcsfml-audio -Wl,-rpath,$HOME/.brew/lib

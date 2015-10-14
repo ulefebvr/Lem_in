@@ -1,16 +1,13 @@
 #include "viewer.h"
+
 #include "SFML/Audio.h"
 #include "SFML/Config.h"
-#include "SFML/Graphics.h"
 #include "SFML/Network.h"
 #include "SFML/OpenGL.h"
 #include "SFML/System.h"
 #include "SFML/Window.h"
 #include <unistd.h>
-
 #include "libft.h"
-
-#include <stdio.h>
 
 int is_on_good_way(int node)
 {
@@ -59,7 +56,8 @@ static void ft_set_key(char *action)
   else if (!ft_strcmp("minus", action))
     ft_global(NULL)->zoom = zoom - 10 >= 0 ? zoom - 10 : 0;
   if (ft_global(NULL)->zoom == 100 || ft_global(NULL)->zoom == 0)
-    return ;
+    return ; 
+  sfCircleShape_destroy(ft_global(NULL)->circle);
   calc_ant(ft_global(NULL)->ants);
   ft_get_window();
 }
@@ -73,6 +71,7 @@ void ft_get_perso()
     j++;
     ft_global(NULL)->ant1 = (void *)sfTexture_createFromFile("ressources/img/ant1_red.png", NULL);
     ft_global(NULL)->ant2 = (void *)sfTexture_createFromFile("ressources/img/ant2_red.png", NULL);
+    
   }
   else if (j == 1)
   {
@@ -99,6 +98,7 @@ void get_event(sfRenderWindow *window)
       if (event.type == sfEvtClosed || ((event.type == sfEvtKeyPressed) && (event.key.code == sfKeyEscape)))
       {
         sfRenderWindow_close(window);
+        ft_free_struct(ft_global(NULL), ft_global(NULL)->window);
         exit(0);
       }
       else if ((event.type == sfEvtKeyPressed) && (event.key.code == sfKeySpace))
@@ -236,6 +236,8 @@ void draw_line(int node_a, int node_b, sfRenderTexture *texture, sfColor color)
     i++;
   }
   sfRenderTexture_drawVertexArray(texture, vertex, NULL);
+  sfVertexArray_destroy(vertex);
+
 }
 
 void ft_update_texture(sfRenderTexture *texture, sfRenderWindow *window)
@@ -254,6 +256,7 @@ void ft_update_texture(sfRenderTexture *texture, sfRenderWindow *window)
   ft_global(NULL)->window = (void *)window;
   ft_global(NULL)->sprite = (void *)sprite;
   ft_global(NULL)->f_texture = (void *)f_texture;
+
 }
 
 void draw_background(sfRenderTexture **texture, sfRenderWindow *window, sfCircleShape **circle)
@@ -345,9 +348,7 @@ int test_csfml(void)
           break;         
       }
       /* Cleanup resources */
-      sfCircleShape_destroy(ft_global(NULL)->circle);
-      sfRenderWindow_destroy(window);
-      ft_free_struct(ft_global(NULL));
+      ft_free_struct(ft_global(NULL), window);
 
       return (1);
 }

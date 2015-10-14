@@ -2,7 +2,6 @@
 
 #include "libft.h"
 
-#include <stdio.h>
 char	**is_link(char *line)
 {
 	char 	**result;
@@ -19,18 +18,19 @@ char	**is_link(char *line)
 int		check_link(char *line)
 {
 	int		stat;
+	static int i;
 
 	if (!line)
 	{
 		stat = get_next_line(0, &line);
-		if (!stat && line == NULL)
+		if (stat < 0 || (line == NULL && !stat))
 		{
 			free(line);
 			return (-1);
 		}
 	}
 	if (ft_strlen(line) && line[0] != '#' && !lst_add_link(is_link(line)))
-		return (check_ant(line));
+		return (i ? check_ant(line) : 0);
 	free(line);
-	return (check_link(NULL));
+	return (i++, check_link(NULL));
 }

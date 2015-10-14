@@ -2,7 +2,6 @@
 
 #include "libft.h"
 
-#include <stdio.h>
 int		is_ant(char *line, int lap)
 {
 	char 	**result;

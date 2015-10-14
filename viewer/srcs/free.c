@@ -26,10 +26,12 @@ void	ft_free_links(t_links *links)
 	}
 }
 
-void	ft_free_struct(t_map *map)
+void	ft_free_struct(t_map *map, sfRenderWindow *window)
 {
 	t_map *save;
 
+	sfCircleShape_destroy(ft_global(NULL)->circle);
+	sfRenderWindow_destroy(window);
 	while (map)
 	{
 		save = map;

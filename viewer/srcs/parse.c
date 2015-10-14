@@ -33,6 +33,7 @@ static int	*is_comment(char **line, int *comment)
 static int 	get_node(int *comment, char *line)
 {
 	char **result;
+	static int i;
 
 	if (!ft_strlen(line))
 	{
@@ -44,12 +45,12 @@ static int 	get_node(int *comment, char *line)
 	if (!(result = ft_strsplit(line, ' ')) || (ft_tablen(result) != 3))
 	{
 		ft_freetab(result);
-		if (is_link(line))
+		if (is_link(line) && i)
 			return check_link(line);
 		return (free(line), 0);
 	}
 	free(line);
-	return (lst_add(result, comment));
+	return (i++, lst_add(result, comment));
 }
 
 int	check_node(char *line)
