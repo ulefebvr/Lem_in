@@ -12,15 +12,54 @@
 
 #include <stdio.h>
 
+int is_on_good_way(int node)
+{
+  t_ants *ants;
+
+  ants = ft_global(NULL)->ants;
+  while (ants)
+  {
+    if (ants->step == node)
+      return (1);
+    ants = ants->next;
+  }
+  return (0);
+}
+
+int ft_get_max_longueur(t_ants *ants, int lap)
+{
+  t_ants  *begin;
+  int     max;
+
+  begin = ants;
+  max = 0;
+  while (ants && ants->lap == lap)
+  {
+    if (ants->longueur > max)
+      max = ants->longueur;
+    ants = ants->next;
+  }
+  while (ants)
+  {
+    if (ants->longueur == max && ants->i <= (max / 5))
+      return (1);
+
+    ants = ants->prev;
+  }
+  return (0);
+}
+
 static void ft_set_key(char *action)
 {
   int  zoom;
 
   zoom = ft_global(NULL)->zoom;
   if (!ft_strcmp("plus", action))
-    ft_global(NULL)->zoom = zoom <= 100 ? zoom + 10 : zoom;
+    ft_global(NULL)->zoom = zoom + 10 <= 100 ? zoom + 10 : 100;
   else if (!ft_strcmp("minus", action))
-    ft_global(NULL)->zoom = zoom >= -100 ? zoom - 10 : zoom;
+    ft_global(NULL)->zoom = zoom - 10 >= 0 ? zoom - 10 : 0;
+  if (ft_global(NULL)->zoom == 100 || ft_global(NULL)->zoom == 0)
+    return ;
   calc_ant(ft_global(NULL)->ants);
   ft_get_window();
 }
@@ -125,12 +164,15 @@ t_ants  *print_ant(t_ants *lista, int lap)
   sfRenderWindow_drawSprite((sfRenderWindow *)ft_global(NULL)->window, (sfSprite *)ft_global(NULL)->background, NULL);
   while (list && list->lap == lap)
   {
-    get_event(ft_global(NULL)->window);
-    ft_global(NULL)->sprite = (void *)sfSprite_create();
-    sfSprite_setTexture((sfSprite *)ft_global(NULL)->sprite, ((int)list->i % 2) ? (sfTexture *)ft_global(NULL)->ant1 : (sfTexture *)ft_global(NULL)->ant2, sfTrue);
-    sfSprite_move((sfSprite *)ft_global(NULL)->sprite, (sfVector2f){list->x - 9, list->y - 11});
-    sfRenderWindow_drawSprite((sfRenderWindow *)ft_global(NULL)->window, (sfSprite *)ft_global(NULL)->sprite, NULL);
-    sfSprite_destroy((sfSprite *)ft_global(NULL)->sprite);
+    if (list->i <= (list->longueur / 5))
+    {
+      get_event(ft_global(NULL)->window);
+      ft_global(NULL)->sprite = (void *)sfSprite_create();
+      sfSprite_setTexture((sfSprite *)ft_global(NULL)->sprite, ((int)list->i % 2) ? (sfTexture *)ft_global(NULL)->ant1 : (sfTexture *)ft_global(NULL)->ant2, sfTrue);
+      sfSprite_move((sfSprite *)ft_global(NULL)->sprite, (sfVector2f){list->x - 9, list->y - 11});
+      sfRenderWindow_drawSprite((sfRenderWindow *)ft_global(NULL)->window, (sfSprite *)ft_global(NULL)->sprite, NULL);
+      sfSprite_destroy((sfSprite *)ft_global(NULL)->sprite);
+    }
     list->x += list->dx;
     list->y += list->dy;
     list->i++;
@@ -138,7 +180,7 @@ t_ants  *print_ant(t_ants *lista, int lap)
   }
   sfRenderWindow_display((sfRenderWindow *)ft_global(NULL)->window);
   usleep(SPEED);
-  return (lista->i <= (lista->longueur / 5) ? lista : list);
+  return (lista->i < (lista->longueur / 5) ? lista : list);
 }
 
 void  print_them_all(t_ants *list)
@@ -157,7 +199,7 @@ void  print_them_all(t_ants *list)
   }
 }
 
-void draw_line(int node_a, int node_b, sfRenderTexture *texture)
+void draw_line(int node_a, int node_b, sfRenderTexture *texture, sfColor color)
 {
   t_map *map;
   sfVertexArray *vertex;
@@ -186,7 +228,7 @@ void draw_line(int node_a, int node_b, sfRenderTexture *texture)
   while (i <= longueur)
   {
     vert.position = (sfVector2f){x, y};
-    vert.color = (sfColor){150, 150, 150, 100};
+    vert.color = color;
     // vert.texCoords = (sfVector2f){x, y};
     sfVertexArray_append(vertex, vert);
     x = x + dx;
@@ -221,16 +263,16 @@ void draw_background(sfRenderTexture **texture, sfRenderWindow *window, sfCircle
 
   map = ft_global(NULL);
   /* Clear the screen */
-  sfRenderWindow_clear(window, sfBlack);
+  sfRenderWindow_clear(window, MYBROWN);
   // Clear the texture
-  sfRenderTexture_clear(*texture, sfBlack);
+  sfRenderTexture_clear(*texture, MYBROWN);
   while (map)
   {
     if (map->links)
       save = map->links;
     while (save)
     {
-      draw_line(map->num, save->node, *texture);
+      draw_line(map->num, save->node, *texture, MYGREY);
       save = save->next;
     }
     map = map->next;
@@ -240,11 +282,16 @@ void draw_background(sfRenderTexture **texture, sfRenderWindow *window, sfCircle
   {
     sfCircleShape_setPosition(*circle, (sfVector2f){((map->x) * ft_global(NULL)->zoom) - ft_global(NULL)->node_size, ((map->y) * ft_global(NULL)->zoom) - ft_global(NULL)->node_size});
     if (map->start)
-      sfCircleShape_setFillColor(*circle, (sfColor){189, 181, 9, 255});
+      sfCircleShape_setFillColor(*circle, MYGREEN);
     else if (map->end)
-      sfCircleShape_setFillColor(*circle, (sfColor){9, 189, 89, 255});
+      sfCircleShape_setFillColor(*circle, MYBLUE);
     else
-      sfCircleShape_setFillColor(*circle, (sfColor){9, 157, 179, 255});
+      sfCircleShape_setFillColor(*circle, MYGREY);
+    if (is_on_good_way(map->num))
+    {
+      sfCircleShape_setOutlineThickness(*circle, 2.5);
+      sfCircleShape_setOutlineColor(*circle, MYBLUE);
+    }
     sfRenderTexture_drawCircleShape(*texture, *circle, NULL);
     map = map->next;
   }
@@ -300,6 +347,7 @@ int test_csfml(void)
       /* Cleanup resources */
       sfCircleShape_destroy(ft_global(NULL)->circle);
       sfRenderWindow_destroy(window);
+      ft_free_struct(ft_global(NULL));
 
       return (1);
 }

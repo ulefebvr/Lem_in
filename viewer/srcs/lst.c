@@ -64,6 +64,7 @@ int	lst_add_ant(char **ants, int lap)
 		new->prev = begin;
 		begin->next = new;
 	}
+	ft_freetab(ants);
 	return (1);
 }
 

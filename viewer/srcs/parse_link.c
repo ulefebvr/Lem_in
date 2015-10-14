@@ -7,9 +7,10 @@ char	**is_link(char *line)
 {
 	char 	**result;
 
+	result = NULL;
 	if (line[0] == 'L' || !(result = ft_strsplit(line, '-')) || !(ft_tablen(result) == 2))
 	{	
-		// ft_freetab(result);
+		ft_freetab(result);
 		return (NULL);
 	}
 	return (result);
@@ -23,9 +24,13 @@ int		check_link(char *line)
 	{
 		stat = get_next_line(0, &line);
 		if (!stat && line == NULL)
+		{
+			free(line);
 			return (-1);
+		}
 	}
 	if (ft_strlen(line) && line[0] != '#' && !lst_add_link(is_link(line)))
 		return (check_ant(line));
+	free(line);
 	return (check_link(NULL));
 }

@@ -6,6 +6,14 @@
 # define WIDTH		2000
 # define SPEED		50000
 
+// Colors
+# define MYBROWN	(sfColor){51, 36, 22, 255}
+# define MYGREY		(sfColor){150, 150, 150, 255}
+# define MYYELLOW	(sfColor){189, 181, 9, 255}
+# define MYGREEN	(sfColor){9, 189, 89, 255}
+# define MYBLUE		(sfColor){9, 157, 179, 255}
+# define MYRED		(sfColor){189, 24, 9, 255}
+
 #include <stdio.h>
 
 typedef struct		s_ants
@@ -78,6 +86,9 @@ int					lst_add_ant(char **ants, int lap);
 int					test_csfml(void);
 int					ft_get_window(void);
 void				calc_ant(t_ants *ants);
+
+// free.c
+void				ft_free_struct(t_map *map);
 
 // Compilation:
 // gcc srcs/* -I include -I libft/includes libft/libft.a -I ~/.brew/include -L ~/.brew/lib -lcsfml-system -lcsfml-window -lcsfml-graphics -lcsfml-network -lcsfml-audio -Wl,-rpath,$HOME/.brew/lib

@@ -14,6 +14,7 @@ static char	*begin_parse(void)
 		if (line[0] == '#' || (ft_strchr(line, ' ') && ft_tablen(result) == 3))
 			return (line);
 	}
+	free(line);
 	return (NULL);
 }
 
@@ -42,9 +43,10 @@ static int 	get_node(int *comment, char *line)
 		return (check_node(line));
 	if (!(result = ft_strsplit(line, ' ')) || (ft_tablen(result) != 3))
 	{
-		if (result)	
-			ft_freetab(result);
-		return (is_link(line) ? check_link(line) : 0);
+		ft_freetab(result);
+		if (is_link(line))
+			return check_link(line);
+		return (free(line), 0);
 	}
 	free(line);
 	return (lst_add(result, comment));
