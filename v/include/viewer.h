@@ -146,10 +146,6 @@ void				get_event(sfRenderWindow *window);
 /*
 ** free.c
 */
-
 void				ft_free_struct(t_map *map, sfRenderWindow *window);
-
-// Compilation:
-// gcc srcs/* -I include -I libft/includes libft/libft.a 
 
 #endif

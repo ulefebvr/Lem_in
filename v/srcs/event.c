@@ -37,20 +37,20 @@ void	ft_set_perso(void)
 	if (j == 0)
 	{
 		j++;
-		ft_global(NULL)->ant1 = (void *)SFTCFF("rsrc/img/ant1.png", NULL);
-		ft_global(NULL)->ant2 = (void *)SFTCFF("rsrc/img/ant2.png", NULL);
+		ft_global(NULL)->ant1 = (void *)SFTCFF("./v/rsrc/img/ant1.png", NULL);
+		ft_global(NULL)->ant2 = (void *)SFTCFF("./v/rsrc/img/ant2.png", NULL);
 	}
 	else if (j == 1)
 	{
 		j++;
-		ft_global(NULL)->ant1 = (void *)SFTCFF("rsrc/img/sacha1.png", NULL);
-		ft_global(NULL)->ant2 = (void *)SFTCFF("rsrc/img/sacha2.png", NULL);
+		ft_global(NULL)->ant1 = (void *)SFTCFF("./v/rsrc/img/sacha1.png", NULL);
+		ft_global(NULL)->ant2 = (void *)SFTCFF("./v/rsrc/img/sacha2.png", NULL);
 	}
 	else if (j == 2)
 	{
 		j = 0;
-		ft_global(NULL)->ant1 = (void *)SFTCFF("rsrc/img/fb1.png", NULL);
-		ft_global(NULL)->ant2 = (void *)SFTCFF("rsrc/img/fb2.png", NULL);
+		ft_global(NULL)->ant1 = (void *)SFTCFF("./v/rsrc/img/fb1.png", NULL);
+		ft_global(NULL)->ant2 = (void *)SFTCFF("./v/rsrc/img/fb2.png", NULL);
 	}
 }
 
