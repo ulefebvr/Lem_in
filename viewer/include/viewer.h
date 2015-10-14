@@ -150,6 +150,6 @@ void				get_event(sfRenderWindow *window);
 void				ft_free_struct(t_map *map, sfRenderWindow *window);
 
 // Compilation:
-// gcc srcs/* -I include -I libft/includes libft/libft.a -I ~/.brew/include -L ~/.brew/lib -lcsfml-system -lcsfml-window -lcsfml-graphics -lcsfml-network -lcsfml-audio -Wl,-rpath,$HOME/.brew/lib
+// gcc srcs/* -I include -I libft/includes libft/libft.a 
 
 #endif

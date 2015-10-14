@@ -63,11 +63,11 @@ void	draw_line(int node_a, int node_b, sfRenderTexture *t)
 	t_map *map;
 
 	map = get_node_by_num(node_a);
-	x[0] = (map->x * ft_global(NULL)->zoom);
-	y[0] = (map->y * ft_global(NULL)->zoom);
+	x[0] = (map->x * GLOB->zoom);
+	y[0] = (map->y * GLOB->zoom);
 	map = get_node_by_num(node_b);
-	x[1] = (map->x * ft_global(NULL)->zoom);
-	y[1] = (map->y * ft_global(NULL)->zoom);
+	x[1] = (map->x * GLOB->zoom);
+	y[1] = (map->y * GLOB->zoom);
 	get_longueur(x[0], y[0], x[1], y[1]);
 	d[0] = (x[1] - x[0]) / get_longueur(x[0], y[0], x[1], y[1]);
 	d[1] = (y[1] - y[0]) / get_longueur(x[0], y[0], x[1], y[1]);
