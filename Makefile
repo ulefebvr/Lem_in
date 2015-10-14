@@ -31,6 +31,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	make -C libft
+	make -C v
 	$(CC) $(LDFLAGS) $(OBJ) -o $@
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
@@ -44,6 +45,7 @@ clean:
 
 fclean: clean
 	make fclean -C libft
+	make fclean -C v
 	rm -fv $(NAME)
 
 re: fclean all

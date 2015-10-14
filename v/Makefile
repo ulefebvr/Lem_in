@@ -35,6 +35,10 @@ fclean: clean
 
 re: fclean all
 
+brew:
+	brew update && brew upgrade
+	brew install csfml
+
 norme:
 	norminette $(SRC)
 	norminette $(INC_PATH)*.h
